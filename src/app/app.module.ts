@@ -6,17 +6,19 @@ import { AppComponent } from './app.component';
 import {appConfig} from './app.config';
 import {Button} from "primeng/button";
 import { NavMenuComponent } from './shared/components/nav-menu/nav-menu.component';
+import {Menu} from 'primeng/menu';
+import {SharedModule} from './shared/components/shared.module';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        Button
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    SharedModule,
+    Menu
+  ],
   providers: appConfig.providers,
   bootstrap: [AppComponent]
 })
