@@ -19,7 +19,6 @@ import {SharedModule} from './shared/components/shared.module';
     SharedModule,
     Menu
   ],
-  providers: appConfig.providers,
   bootstrap: [AppComponent]
 })
 export class AppModule { }
