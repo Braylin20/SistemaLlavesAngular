@@ -7,9 +7,6 @@ import {NavMenuComponent} from './nav-menu/nav-menu.component';
   declarations: [
     NavMenuComponent
   ],
-  imports: [
-    Menu
-  ],
   exports: [
     NavMenuComponent
   ]
