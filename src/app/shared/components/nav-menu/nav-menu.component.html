@@ -1,5 +1,3 @@
-
-
 <div class="h-full max-w-[17%] text-white" style="background-color: #004581 ">
   <ul>
     <li class=" flex w-full items-center justify-center h-32 border-b border-gray-500">
@@ -11,11 +9,63 @@
     <li class="hover:bg-blue-800 hover:cursor-pointer flex w-full items-center justify-center border-b border-gray-500">
       <span class="text-lg p-4">Inventario</span>
     </li>
-    <li class="hover:bg-blue-800 hover:cursor-pointer flex w-full items-center justify-center border-b border-gray-500">
-      <span class="text-lg p-4">Productos</span>
+    <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
+
+      <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('productos')">
+        <img *ngIf="!submenus['productos']" src="/IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
+        <img *ngIf="submenus['productos']" src="/IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
+        <span class="ml-2">Productos</span>
+      </span>
+      <ul *ngIf="submenus['productos']" class="hover:bg-blue-800 list-disc list-inside flex flex-col items-center pr-8">
+        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-2 pr-8">• Registrar</span>
+        </li>
+
+
+      </ul>
     </li>
-    <li class="hover:bg-blue-800 hover:cursor-pointer flex w-full items-center justify-center border-b border-gray-500">
-      <span class="text-lg p-4">Ventas</span>
+    <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
+
+      <!-- Encabezado del menú con iconos -->
+      <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('compras')">
+        <img *ngIf="!submenus['compras']" src="/IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
+        <img *ngIf="submenus['compras']" src="/IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
+        <span class="ml-2">Compras</span>
+    </span>
+
+      <!-- Submenú con hover aplicado correctamente en todo el contenedor -->
+      <ul *ngIf="submenus['compras']" class="list-none flex flex-col items-start space-y-2">
+        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-2 pr-16">• Registrar</span>
+        </li>
+        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-3 pr-16">• Historial</span>
+        </li>
+        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-2 pr-10">• Proveedores</span>
+        </li>
+      </ul>
+    </li>
+
+
+    <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
+
+      <!-- Encabezado del menú con iconos -->
+      <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('ventas')">
+        <img *ngIf="!submenus['ventas']" src="/IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
+        <img *ngIf="submenus['ventas']" src="/IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
+        <span class="ml-2">Ventas</span>
+    </span>
+
+      <!-- Submenú con hover aplicado correctamente en todo el contenedor -->
+      <ul *ngIf="submenus['ventas']" class="list-none flex flex-col items-start space-y-2">
+        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-2 pr-16">• Registrar</span>
+        </li>
+        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-3 pr-16">• Historial</span>
+        </li>
+      </ul>
     </li>
     <li class="hover:bg-blue-800 hover:cursor-pointer flex w-full items-center justify-center border-b border-gray-500">
       <span class="text-lg p-4">Clientes</span>
