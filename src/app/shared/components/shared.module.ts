@@ -1,11 +1,13 @@
 import {NgModule} from '@angular/core';
-import {Menu, MenuModule} from 'primeng/menu';
 import {NavMenuComponent} from './nav-menu/nav-menu.component';
-
+import {CommonModule} from '@angular/common';
 
 @NgModule({
   declarations: [
     NavMenuComponent
+  ],
+  imports: [
+    CommonModule
   ],
   exports: [
     NavMenuComponent
