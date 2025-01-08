@@ -9,4 +9,13 @@ import { Component } from '@angular/core';
 })
 export class NavMenuComponent {
 
+  public submenus: { [key: string]: boolean } = {
+    productos: false,
+    ventas: false,
+    compras: false,
+  };
+
+  toggleSubmenu(menu: string): void {
+    this.submenus[menu] = !this.submenus[menu];
+  }
 }
