@@ -8,6 +8,7 @@ import {Button} from "primeng/button";
 import { NavMenuComponent } from './shared/components/nav-menu/nav-menu.component';
 import {Menu} from 'primeng/menu';
 import {SharedModule} from './shared/components/shared.module';
+import {LlavesModule} from './llaves/llaves.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import {SharedModule} from './shared/components/shared.module';
     BrowserModule,
     AppRoutingModule,
     SharedModule,
-    Menu
+    LlavesModule
   ],
   bootstrap: [AppComponent]
 })
