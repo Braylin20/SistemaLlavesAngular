@@ -12,8 +12,8 @@
     <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
 
       <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('productos')">
-        <img *ngIf="!submenus['productos']" src="/IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
-        <img *ngIf="submenus['productos']" src="/IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
+        <img *ngIf="!submenus['productos']" src="./IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
+        <img *ngIf="submenus['productos']" src="./IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
         <span class="ml-2">Productos</span>
       </span>
       <ul *ngIf="submenus['productos']" class="hover:bg-blue-800 list-disc list-inside flex flex-col items-center pr-8">
@@ -28,8 +28,8 @@
 
       <!-- Encabezado del menú con iconos -->
       <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('compras')">
-        <img *ngIf="!submenus['compras']" src="/IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
-        <img *ngIf="submenus['compras']" src="/IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
+        <img *ngIf="!submenus['compras']" src="./IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
+        <img *ngIf="submenus['compras']" src="./IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
         <span class="ml-2">Compras</span>
     </span>
 
@@ -52,8 +52,8 @@
 
       <!-- Encabezado del menú con iconos -->
       <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('ventas')">
-        <img *ngIf="!submenus['ventas']" src="/IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
-        <img *ngIf="submenus['ventas']" src="/IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
+        <img *ngIf="!submenus['ventas']" src="./IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
+        <img *ngIf="submenus['ventas']" src="./IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
         <span class="ml-2">Ventas</span>
     </span>
 
