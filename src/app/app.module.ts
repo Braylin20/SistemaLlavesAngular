@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import {SharedModule} from './shared/components/shared.module';
 import {LlavesModule} from './llaves/llaves.module';
+import {provideHttpClient} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {LlavesModule} from './llaves/llaves.module';
     SharedModule,
     LlavesModule
   ],
+  providers:[provideHttpClient()],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
