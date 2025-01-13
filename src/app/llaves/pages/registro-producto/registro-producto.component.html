@@ -1,25 +1,25 @@
 <div class="container h-full flex flex-col justify-center items-center ">
   <div class=" flex flex-col justify-center items-center gap-6   ">
-    <div class="rounded-lg border-2 p-10 flex flex-col gap-4">
+    <form class="rounded-lg border-2 border-blue-800 p-24 flex flex-col gap-4">
       <div class="text-center ">
 
-        <h3 class="text-2xl">Registro de LLave</h3>
+        <h3 class="text-3xl font-bold mb-9">Registro de LLave</h3>
       </div>
 
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
         <input
-          class=" border-2 rounded-lg p-1 col-span-2"
+          class=" border bg-gray-50 border-gray-300 rounded-lg p-1 col-span-2"
           placeholder="Nombre"
           type="text"
         >
 
         <input
-          class=" border-2 rounded-lg p-1"
+          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
           placeholder="Precio"
           type="text"
         >
         <input
-          class=" border-2 rounded-lg p-1"
+          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
           placeholder="Costo"
           type="text"
         >
@@ -28,22 +28,22 @@
 
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
         <input
-          class=" border-2 rounded-lg p-1 "
+          class=" border rounded-lg bg-gray-50 border-gray-300 p-1 "
           placeholder="Cantidad"
           type="text"
         >
 
         <input
-          class=" border-2 rounded-lg p-1"
+          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
           placeholder="Itbis"
           type="text"
         >
         <input
-          class=" border-2 rounded-lg p-1"
+          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
           placeholder="Descuento"
           type="text"
         >
-        <select class="bg-white border-2  text-gray-400  rounded-lg  block w-full p-2.5 ">
+        <select class=" border bg-gray-50 border-gray-300  text-gray-400  rounded-lg  block w-full p-1 ">
           <option>Categoria</option>
           <option>Opcion 1</option>
           <option>Opcion 2</option>
@@ -51,14 +51,36 @@
           <option>Opcion 4</option>
         </select>
       </div>
+      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
+
+        <select class=" bg-gray-50 border-gray-300 border col-span-2 text-gray-400  rounded-lg  block w-full p-1 ">
+          <option>Proveedor</option>
+          <option>Opcion 1</option>
+          <option>Opcion 2</option>
+        </select>
+
+        <select class="bg-gray-50 border-gray-300 border col-span-2  text-gray-400  rounded-lg  block w-full p-1 ">
+          <option>Garantia</option>
+          <option>Opcion 1</option>
+          <option>Opcion 2</option>
+        </select>
+      </div>
       <div class="grid gap-3">
         <input
-          class=" border-2 rounded-lg p-1"
+          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
           placeholder="Descripcion"
-          type="text" 
+          type="text"
         >
       </div>
-    </div>
+      <footer>
+        <div class="flex justify-center">
+          <button type="submit" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded-lg">
+            Guardar
+          </button>
+        </div>
+      </footer>
+    </form>
+
 
 
   </div>
