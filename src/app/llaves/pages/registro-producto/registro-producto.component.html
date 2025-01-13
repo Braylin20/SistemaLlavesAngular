@@ -7,70 +7,114 @@
       </div>
 
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
-        <input
-          class=" border bg-gray-50 border-gray-300 rounded-lg p-1 col-span-2"
-          placeholder="Nombre"
-          type="text"
-        >
+        <div class="flex flex-col  gap-1 col-span-2">
+          <label class="font-bold ml-1">Nombre</label>
+          <input
+            class=" border bg-gray-50 border-gray-300 rounded-lg p-1 "
+            placeholder="Ej: Llave Kia Sorento"
+            type="text"
+          >
+        </div>
 
-        <input
-          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-          placeholder="Precio"
-          type="text"
-        >
-        <input
-          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-          placeholder="Costo"
-          type="text"
-        >
+
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Precio</label>
+          <input
+            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
+            placeholder="Ej: 2000"
+            type="text"
+          >
+        </div>
+
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Costo</label>
+
+          <input
+            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
+            placeholder="Ej: 1500"
+            type="text"
+          >
+        </div>
+
       </div>
 
 
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
-        <input
-          class=" border rounded-lg bg-gray-50 border-gray-300 p-1 "
-          placeholder="Cantidad"
-          type="text"
-        >
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Cantidad</label>
+          <input
+            class=" border rounded-lg bg-gray-50 border-gray-300 p-1 "
+            placeholder="Ej: 20"
+            type="text"
+          >
+        </div>
 
-        <input
-          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-          placeholder="Itbis"
-          type="text"
-        >
-        <input
-          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-          placeholder="Descuento"
-          type="text"
-        >
-        <select class=" border bg-gray-50 border-gray-300  text-gray-400  rounded-lg  block w-full p-1 ">
-          <option>Categoria</option>
-          <option>Opcion 1</option>
-          <option>Opcion 2</option>
-          <option>Opcion 3</option>
-          <option>Opcion 4</option>
-        </select>
+
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Itbis</label>
+          <input
+            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
+            placeholder="Ej: 18"
+            type="text"
+          >
+        </div>
+
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Descuento</label>
+          <input
+            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
+            placeholder="Ej: 200"
+            type="text"
+          >
+        </div>
+
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Categoria</label>
+
+          <select class=" border bg-gray-50 border-gray-300 rounded-lg  block w-full p-1.5 ">
+            <option  value="" >Seleccione</option>
+            @for(category of categorias; track category.categoriaId){
+              <option [value]="category.categoriaId">{{category.nombre}}</option>
+            }
+          </select>
+        </div>
+
       </div>
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
 
-        <select class=" bg-gray-50 border-gray-300 border col-span-2 text-gray-400  rounded-lg  block w-full p-1 ">
-          <option>Proveedor</option>
-          <option>Opcion 1</option>
-          <option>Opcion 2</option>
-        </select>
+        <div class="flex flex-col col-span-2 gap-1">
+          <label class="font-bold ml-1">Proveedor</label>
 
-        <select class="bg-gray-50 border-gray-300 border col-span-2  text-gray-400  rounded-lg  block w-full p-1 ">
-          <option>Garantia</option>
-          <option>Opcion 1</option>
-          <option>Opcion 2</option>
-        </select>
+          <select class=" bg-gray-50 border-gray-300 border  rounded-lg  block w-full p-1 ">
+            <option>Seleccione</option>
+            @for(proveedor of proveedores; track proveedor.proveedorId){
+              <option [value]="proveedor.proveedorId">{{proveedor.nombre}}</option>
+            }
+          </select>
+        </div>
+
+
+        <div class="flex flex-col col-span-2   gap-1">
+          <label class="font-bold ml-1">Garantia</label>
+
+          <select class="bg-gray-50 border-gray-300 border   rounded-lg  block w-full p-1 ">
+            <option>Seleccione</option>
+            <option>Opcion 1</option>
+            <option>Opcion 2</option>
+          </select>
+        </div>
+
       </div>
       <div class="grid gap-3">
-        <input
-          class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-          placeholder="Descripcion"
-          type="text"
-        >
+        <div class="flex flex-col  gap-1">
+          <label class="font-bold ml-1">Descripcion</label>
+          <input
+            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
+            placeholder="Ej: Llave de kia sorento con garantia"
+            type="text"
+          >
+        </div>
+
       </div>
       <footer>
         <div class="flex justify-center">
