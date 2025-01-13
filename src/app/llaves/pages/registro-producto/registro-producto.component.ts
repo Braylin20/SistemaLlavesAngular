@@ -5,7 +5,6 @@ import { Component } from '@angular/core';
   standalone: false,
 
   templateUrl: './registro-producto.component.html',
-  styleUrl: './registro-producto.component.css'
 })
 export class RegistroProductoComponent {
 
