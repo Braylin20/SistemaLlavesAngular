@@ -7,39 +7,57 @@
       </div>
 
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
-        <div class="flex flex-col  gap-1 col-span-2">
-          <label class="font-bold ml-1">Nombre</label>
-          <input
-            class=" border bg-gray-50 border-gray-300 rounded-lg p-1 "
-            placeholder="Ej: Llave Kia Sorento"
-            type="text"
-            name="nombre"
-            [(ngModel)]="producto.nombre"
-          >
+        <div class="flex flex-col jus gap-1 col-span-2">
+          <p-floatlabel variant="on">
+            <input
+              pInputText id="on_label"
+              [(ngModel)]="producto.nombre"
+              autocomplete="off"
+              name="nombre"
+              pSize="small"
+              class="w-full"
+            />
+            <label for="on_label">Nombre</label>
+          </p-floatlabel>
         </div>
 
 
         <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Precio</label>
-          <input
-            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-            placeholder="Ej: 2000"
-            type="text"
-            name="precio"
-            [(ngModel)]="producto.precio"
-          >
+
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              [(ngModel)]="producto.precio"
+              inputId="on_label"
+              mode="currency"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              name="precio"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Precio</label>
+          </p-floatlabel>
+
         </div>
 
         <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Costo</label>
 
-          <input
-            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-            placeholder="Ej: 1500"
-            type="text"
-            name="costo"
-            [(ngModel)]="producto.costo"
-          >
+
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              [(ngModel)]="producto.costo"
+              inputId="on_label"
+              mode="currency"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              name="costo"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Costo</label>
+          </p-floatlabel>
         </div>
 
       </div>
@@ -47,97 +65,124 @@
 
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
         <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Cantidad</label>
-          <input
-            class=" border rounded-lg bg-gray-50 border-gray-300 p-1 "
-            placeholder="Ej: 20"
-            type="text"
-            name="cantidad"
-            [(ngModel)]="producto.cantidad"
-          >
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              [(ngModel)]="producto.cantidad"
+              mode="decimal"
+              inputId="on_label"
+              [useGrouping]="false"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              name="costo"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Cantidad</label>
+          </p-floatlabel>
+
         </div>
 
 
-        <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Itbis</label>
-          <input
-            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-            placeholder="Ej: 18"
-            type="text"
-            name="itbis"
-            [(ngModel)]="producto.itbis"
-          >
+        <div class="flex flex-col gap-1">
+
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              [(ngModel)]="producto.itbis"
+              inputId="on_label"
+              size="small"
+              prefix="%"
+              size="small"
+              name="itbis"
+            ></p-inputnumber>
+            <label for="on_label">Itbis</label>
+          </p-floatlabel>
         </div>
 
         <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Descuento</label>
-          <input
-            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-            placeholder="Ej: 200"
-            type="text"
-            name="descuento"
-            [(ngModel)]="producto.descuento"
-          >
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              [(ngModel)]="producto.descuento"
+              inputId="on_label"
+              mode="currency"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              name="descuento"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Descuento</label>
+          </p-floatlabel>
         </div>
 
-        <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Categoria</label>
+        <div class="flex flex-col gap-1">
 
-          <select
-            [(ngModel)]="producto.categoriaId"
-            class=" border bg-gray-50 border-gray-300 rounded-lg  block w-full p-1.5 "
-            name="categoriaId"
-          >
-            <option >Seleccione</option>
-            @for(category of categorias; track $index){
-              <option [value]="category.categoriaId">{{category.nombre}}</option>
-            }
-          </select>
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="categorias"
+              [(ngModel)]="producto.categoriaId"
+              inputId="on_label"
+              optionLabel="nombre"
+              optionValue="categoriaId"
+              size="small"
+              name="categoriaId"
+              class="w-full"
+            />
+            <label for="on_label">Categoria</label>
+          </p-floatlabel>
+
         </div>
 
       </div>
       <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
 
         <div class="flex flex-col col-span-2 gap-1">
-          <label class="font-bold ml-1">Proveedor</label>
-
-          <select
-            [(ngModel)]="producto.proveedorId"
-            class=" bg-gray-50 border-gray-300 border  rounded-lg  block w-full p-1 "
-            name="proveedorId"
-          >
-            <option >Seleccione</option>
-            @for(proveedor of proveedores; track $index){
-              <option [value]="proveedor.proovedorId">{{proveedor.nombre}}</option>
-            }
-          </select>
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="proveedores"
+              [(ngModel)]="producto.proveedorId"
+              inputId="on_label"
+              optionLabel="nombre"
+              optionValue="proovedorId"
+              size="small"
+              name="proveedorId"
+              class="w-full"
+            />
+            <label for="on_label">Proveedor</label>
+          </p-floatlabel>
         </div>
         <div class="flex flex-col col-span-2   gap-1">
-          <label class="font-bold ml-1">Garantia</label>
-
-          <select
-            [(ngModel)]="producto.garantiaId"
-            class="bg-gray-50 border-gray-300 border   rounded-lg  block w-full p-1 "
-            name="garantiaId"
-          >
-            <option>Seleccione</option>
-            @for(garantia of garantias; track $index){
-              <option [value]="garantia.garantiaId">{{garantia.descripcion}}</option>
-            }
-          </select>
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="garantias"
+              [(ngModel)]="producto.garantiaId"
+              inputId="on_label"
+              optionLabel="descripcion"
+              optionValue="garantiaId"
+              size="small"
+              name="garantiaId"
+              class="w-full"
+            />
+            <label for="on_label">Garantia</label>
+          </p-floatlabel>
         </div>
 
       </div>
       <div class="grid gap-3">
         <div class="flex flex-col  gap-1">
-          <label class="font-bold ml-1">Descripcion</label>
-          <input
-            class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
-            placeholder="Ej: Llave de kia sorento con garantia"
-            type="text"
-            name="descripcion"
-            [(ngModel)]="producto.descripcion"
-          >
+          <p-iftalabel>
+            <textarea
+              pTextarea
+              id="description"
+              [(ngModel)]="producto.descripcion"
+              class="w-full"
+              name="descripcion"
+              cols="12"
+              style="resize: none">
+            </textarea>
+            <label for="description">Descripcion</label>
+          </p-iftalabel>
         </div>
 
       </div>
