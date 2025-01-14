@@ -40,14 +40,7 @@ export class RegistroProductoComponent implements OnInit{
 
   addProducto() {
     this.productoService.addProducto(this.producto)
-      .subscribe(producto => {
-        if(producto == null){
-          this.message = 'Ocurrio un error en el producto';
-          return;
-        }
-        console.log(this.producto);
-        this.message = 'Guardado correctamente'
-      })
+      .subscribe()
   }
 
   getCategorias() {
