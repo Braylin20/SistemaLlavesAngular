@@ -1,6 +1,6 @@
 
 export interface Proveedores {
-  proveedorId: number;
+  proovedorId: number;
   nombre: string;
   direccion: string;
   email: string;
