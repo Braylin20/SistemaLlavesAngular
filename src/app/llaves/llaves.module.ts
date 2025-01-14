@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import { InventarioComponent } from './pages/inventario/inventario.component';
 import { RegistroProductoComponent } from './pages/registro-producto/registro-producto.component';
+import {FormsModule} from "@angular/forms";
 
 
 
@@ -12,8 +13,9 @@ import { RegistroProductoComponent } from './pages/registro-producto/registro-pr
     InventarioComponent,
     RegistroProductoComponent,
   ],
-  imports: [
-    CommonModule
-  ]
+    imports: [
+        CommonModule,
+        FormsModule
+    ]
 })
 export class LlavesModule { }
