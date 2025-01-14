@@ -1,8 +1,8 @@
 <div class="container h-full flex flex-col justify-center items-center ">
   <div class=" flex flex-col justify-center items-center gap-6   ">
-    <form class="rounded-lg border-2 border-blue-800 p-24 flex flex-col gap-4">
-      <div class="text-center ">
 
+    <form (ngSubmit)="addProducto()"  class="rounded-lg border-2 border-blue-800 p-24 flex flex-col gap-4">
+      <div class="text-center ">
         <h3 class="text-3xl font-bold mb-9">Registro de LLave</h3>
       </div>
 
@@ -13,6 +13,8 @@
             class=" border bg-gray-50 border-gray-300 rounded-lg p-1 "
             placeholder="Ej: Llave Kia Sorento"
             type="text"
+            name="nombre"
+            [(ngModel)]="producto.nombre"
           >
         </div>
 
@@ -23,6 +25,8 @@
             class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
             placeholder="Ej: 2000"
             type="text"
+            name="precio"
+            [(ngModel)]="producto.precio"
           >
         </div>
 
@@ -33,6 +37,8 @@
             class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
             placeholder="Ej: 1500"
             type="text"
+            name="costo"
+            [(ngModel)]="producto.costo"
           >
         </div>
 
@@ -46,6 +52,8 @@
             class=" border rounded-lg bg-gray-50 border-gray-300 p-1 "
             placeholder="Ej: 20"
             type="text"
+            name="cantidad"
+            [(ngModel)]="producto.cantidad"
           >
         </div>
 
@@ -56,6 +64,8 @@
             class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
             placeholder="Ej: 18"
             type="text"
+            name="itbis"
+            [(ngModel)]="producto.itbis"
           >
         </div>
 
@@ -65,15 +75,21 @@
             class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
             placeholder="Ej: 200"
             type="text"
+            name="descuento"
+            [(ngModel)]="producto.descuento"
           >
         </div>
 
         <div class="flex flex-col  gap-1">
           <label class="font-bold ml-1">Categoria</label>
 
-          <select class=" border bg-gray-50 border-gray-300 rounded-lg  block w-full p-1.5 ">
-            <option  value="" >Seleccione</option>
-            @for(category of categorias; track category.categoriaId){
+          <select
+            [(ngModel)]="producto.categoriaId"
+            class=" border bg-gray-50 border-gray-300 rounded-lg  block w-full p-1.5 "
+            name="categoriaId"
+          >
+            <option >Seleccione</option>
+            @for(category of categorias; track $index){
               <option [value]="category.categoriaId">{{category.nombre}}</option>
             }
           </select>
@@ -85,22 +101,29 @@
         <div class="flex flex-col col-span-2 gap-1">
           <label class="font-bold ml-1">Proveedor</label>
 
-          <select class=" bg-gray-50 border-gray-300 border  rounded-lg  block w-full p-1 ">
-            <option>Seleccione</option>
-            @for(proveedor of proveedores; track proveedor.proveedorId){
-              <option [value]="proveedor.proveedorId">{{proveedor.nombre}}</option>
+          <select
+            [(ngModel)]="producto.proveedorId"
+            class=" bg-gray-50 border-gray-300 border  rounded-lg  block w-full p-1 "
+            name="proveedorId"
+          >
+            <option >Seleccione</option>
+            @for(proveedor of proveedores; track $index){
+              <option [value]="proveedor.proovedorId">{{proveedor.nombre}}</option>
             }
           </select>
         </div>
-
-
         <div class="flex flex-col col-span-2   gap-1">
           <label class="font-bold ml-1">Garantia</label>
 
-          <select class="bg-gray-50 border-gray-300 border   rounded-lg  block w-full p-1 ">
+          <select
+            [(ngModel)]="producto.garantiaId"
+            class="bg-gray-50 border-gray-300 border   rounded-lg  block w-full p-1 "
+            name="garantiaId"
+          >
             <option>Seleccione</option>
-            <option>Opcion 1</option>
-            <option>Opcion 2</option>
+            @for(garantia of garantias; track $index){
+              <option [value]="garantia.garantiaId">{{garantia.descripcion}}</option>
+            }
           </select>
         </div>
 
@@ -112,6 +135,8 @@
             class=" border rounded-lg bg-gray-50 border-gray-300 p-1"
             placeholder="Ej: Llave de kia sorento con garantia"
             type="text"
+            name="descripcion"
+            [(ngModel)]="producto.descripcion"
           >
         </div>
 
