@@ -1,4 +1,3 @@
-import {Categorias} from './categorias';
 
 
 export interface Producto {
