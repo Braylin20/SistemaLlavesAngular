@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import {SharedModule} from './shared/components/shared.module';
 import {LlavesModule} from './llaves/llaves.module';
 import {provideHttpClient} from '@angular/common/http';
+import {appConfig} from './app.config';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import {provideHttpClient} from '@angular/common/http';
     SharedModule,
     LlavesModule
   ],
-  providers:[provideHttpClient()],
+  providers:[provideHttpClient(),appConfig.providers ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
