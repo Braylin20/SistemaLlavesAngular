@@ -12,4 +12,20 @@ export interface Producto {
   categoriaId?: number | null;
   proveedorId?: number | null;
   garantiaId?: number | null;
+  loading: boolean;
+}
+
+
+export interface MessageProducto{
+  message: string;
+  errorNombre: string;
+  errorPrecio: string;
+  errorCosto: string;
+  errorCantidad: string;
+  errorItbis: string;
+  errorDescuento: string;
+  errorDescripcion: string;
+  errorCategoria: string;
+  errorProveedor: string;
+  errorGarantia: string;
 }
