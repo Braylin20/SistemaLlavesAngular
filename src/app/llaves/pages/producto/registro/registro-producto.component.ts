@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ProductoService} from '../../services/producto.service';
-import {Categorias} from '../../Interfaces/categorias';
-import {Proveedores} from '../../Interfaces/proveedores';
-import {Garantias} from '../../Interfaces/garantias';
-import {MessageProducto, Producto} from '../../Interfaces/producto';
+import {ProductoService} from '../../../services/producto.service';
+import {Categorias} from '../../../Interfaces/categorias';
+import {Proveedores} from '../../../Interfaces/proveedores';
+import {Garantias} from '../../../Interfaces/garantias';
+import {MessageProducto, Producto} from '../../../Interfaces/producto';
 import {MessageService} from 'primeng/api';
 
 @Component({
-  selector: 'llaves-registro-producto',
+  selector: 'llaves-producto',
   standalone: false,
 
   templateUrl: './registro-producto.component.html',
