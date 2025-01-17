@@ -19,4 +19,7 @@ export class RegistroCompraComponent {
       this.loading = false
     }, 2000);
   }
+
+
+
 }
