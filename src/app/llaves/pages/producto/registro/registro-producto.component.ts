@@ -48,8 +48,8 @@ export class RegistroProductoComponent implements OnInit {
   public classValidation = ''
 
   constructor(
-    private productoService: ProductoService,
-    private messageService: MessageService
+    private readonly productoService: ProductoService,
+    private readonly messageService: MessageService
   ) {
   }
 

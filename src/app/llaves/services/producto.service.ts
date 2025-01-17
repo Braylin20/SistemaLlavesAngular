@@ -12,7 +12,7 @@ import {Producto} from '../Interfaces/producto';
 })
 export class ProductoService implements OnInit {
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private readonly httpClient: HttpClient) {
     this.getCategorias()
   }
 
