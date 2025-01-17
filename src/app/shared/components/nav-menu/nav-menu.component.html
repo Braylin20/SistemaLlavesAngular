@@ -35,8 +35,8 @@
 
       <!-- Submenú con hover aplicado correctamente en todo el contenedor -->
       <ul *ngIf="submenus['compras']" class="list-none flex flex-col items-start space-y-2">
-        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
-          <span class="list-disc mr-2 pr-16">• Registrar</span>
+        <li routerLink="registro-compra" class=" hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-2 pr-16"  >• Registrar</span>
         </li>
         <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
           <span class="list-disc mr-3 pr-16">• Historial</span>

@@ -1,0 +1,114 @@
+<div class="container flex flex-col gap-3 justify-center items-center h-screen text-lg">
+  <div class="container border border-gray-800 w-[90%] p-2">
+    <div class="container p-2 flex justify-between">
+      <p class="">No.Entrada: 2</p>
+      <div class=" margin flex gap-2 ">
+        <p class="">Proveedor:</p>
+        <select id="proveedores"
+                class="bg-gray-50 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <option selected>Elige un proveedor</option>
+          <option value="US">Juan</option>
+        </select>
+      </div>
+    </div>
+    <div class="container p-2 flex justify-between">
+
+      <p class="">Fecha: 2/02/2024</p>
+      <div class="flex gap-2 mr-12">
+        <p class="">Concepto:</p>
+        <textarea id="message" cols="40" rows="2" class="block w-full text-sm  border border-gray-600 p-2"
+                  placeholder="Escribe una descripcion..."></textarea>
+      </div>
+
+    </div>
+  </div>
+
+
+  <div class="container border border-gray-800 w-[90%] h-[30%]">
+    <div class="container border-b border-gray-800 p-2 flex justify-between ">
+      <p>Codigo</p>
+      <p>Nombre</p>
+      <p>Cantidad</p>
+      <p>Categoria</p>
+      <p>Costo</p>
+      <p>Precio</p>
+      <p>itbis</p>
+      <p>Total itbis</p>
+      <p>Total</p>
+    </div>
+  </div>
+
+
+  <div class="container  w-[92%] px-2">
+    <p-floatlabel variant="on">
+      <input
+        pInputText id="on_label"
+        [(ngModel)]="descripcion  "
+        autocomplete="off"
+        name="nombre"
+        pSize="small"
+        class="w-full"
+      />
+      <label for="on_label">Nombre</label>
+    </p-floatlabel>
+  </div>
+  <div class="grid grid-cols-4 border border-gray-800 w-[90%] h-[30%]">
+    <div class="col-span-3 border-b border-gray-800 p-2 flex justify-between flex-wrap gap-2">
+      <p>Codigo</p>
+      <p>Nombre</p>
+      <p>Costo</p>
+      <p>Precio</p>
+      <p>Itbis</p>
+      <p>Desc Max</p>
+    </div>
+
+    <!-- Solución corregida con flex y control de ancho -->
+    <div class="flex flex-col gap-4 border-l border-gray-800 p-4 w-full min-w-0">
+      <!-- SubTotal -->
+      <div class="flex justify-between w-full items-center">
+        <p class="w-20 text-left">SubTotal</p>
+        <p-inputnumber
+          [(ngModel)]="descripcion"
+          inputId="currency-us"
+          mode="currency"
+          currency="DOP"
+          locale="en-US"
+          [disabled]="true"
+          size="small"
+          class=" min-w-0 truncate text-right">
+        </p-inputnumber>
+      </div>
+
+      <!-- Itbis -->
+      <div class="flex justify-between w-full items-center">
+        <p class="w-20 text-left">Itbis</p>
+        <p-inputnumber
+          [(ngModel)]="descripcion"
+          inputId="currency-us"
+          mode="currency"
+          currency="DOP"
+          locale="en-US"
+          [disabled]="true"
+          size="small"
+          class=" min-w-0 truncate text-right">
+        </p-inputnumber>
+      </div>
+
+      <!-- Total -->
+      <div class="flex justify-between w-full items-center">
+        <p class="w-20 text-left">Total</p>
+        <p-inputnumber
+          [(ngModel)]="descripcion"
+          inputId="currency-us"
+          mode="currency"
+          currency="DOP"
+          locale="en-US"
+          [disabled]="true"
+          size="small"
+          class="min-w-0 truncate text-right">
+        </p-inputnumber>
+      </div>
+    </div>
+  </div>
+
+</div>

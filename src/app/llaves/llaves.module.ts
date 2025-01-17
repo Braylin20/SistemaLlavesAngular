@@ -10,6 +10,7 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {IftaLabel} from 'primeng/iftalabel';
+import {RegistroCompraComponent} from './pages/compra/registro-compra/registro-compra.component';
 
 
 
@@ -18,6 +19,7 @@ import {IftaLabel} from 'primeng/iftalabel';
     DashboardComponent,
     InventarioComponent,
     RegistroProductoComponent,
+    RegistroCompraComponent,
   ],
   imports: [
     CommonModule,
