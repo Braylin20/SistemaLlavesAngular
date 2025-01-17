@@ -1,25 +1,27 @@
 <div class="container flex flex-col gap-3 justify-center items-center h-screen text-lg">
   <div class="container border border-gray-800 w-[90%] p-2">
-    <div class="container p-2 flex justify-between">
-      <p class="">No.Entrada: 2</p>
-      <div class=" margin flex gap-2 ">
-        <p class="">Proveedor:</p>
+    <!-- Fila 1 -->
+    <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
+      <p class="w-full sm:w-auto mb-2 sm:mb-0">No. Entrada: 2</p>
+      <div class="flex items-center gap-2 w-full sm:w-[40%]">
+        <p class="whitespace-nowrap">Proveedor:</p>
         <select id="proveedores"
-                class="bg-gray-50 border border-gray-300  rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option selected>Elige un proveedor</option>
           <option value="US">Juan</option>
         </select>
       </div>
     </div>
-    <div class="container p-2 flex justify-between">
 
-      <p class="">Fecha: 2/02/2024</p>
-      <div class="flex gap-2 mr-12">
-        <p class="">Concepto:</p>
-        <textarea id="message" cols="40" rows="2" class="block w-full text-sm  border border-gray-600 p-2"
+    <!-- Fila 2 -->
+    <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
+      <p class="w-full sm:w-auto mb-2 sm:mb-0">Fecha: 2/02/2024</p>
+      <div class="flex items-center gap-2 w-full sm:w-[40%]">
+        <p class="whitespace-nowrap">Concepto:</p>
+        <textarea id="message"
+                  class="block w-full text-sm border border-gray-600 p-2 h-[80px]"
                   placeholder="Escribe una descripcion..."></textarea>
       </div>
-
     </div>
   </div>
 
@@ -53,7 +55,7 @@
     </p-floatlabel>
   </div>
   <div class="grid grid-cols-4 border border-gray-800 w-[90%] h-[30%]">
-    <div class="col-span-3 border-b border-gray-800 p-2 flex justify-between flex-wrap gap-2">
+    <div class="col-span-3 p-2 flex justify-between flex-wrap gap-2">
       <p>Codigo</p>
       <p>Nombre</p>
       <p>Costo</p>
@@ -63,7 +65,7 @@
     </div>
 
     <!-- Solución corregida con flex y control de ancho -->
-    <div class="flex flex-col gap-4 border-l border-gray-800 p-4 w-full min-w-0">
+    <div class="flex flex-col gap-2 border-l border-gray-800 p-2 w-full ">
       <!-- SubTotal -->
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">SubTotal</p>
@@ -108,6 +110,10 @@
           class="min-w-0 truncate text-right">
         </p-inputnumber>
       </div>
+      <div class="flex justify-center w-full">
+        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" (onClick)="load()" class="text-sm px-2 py-1" />
+      </div>
+
     </div>
   </div>
 

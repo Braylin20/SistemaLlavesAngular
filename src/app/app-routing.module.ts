@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {DashboardComponent} from './llaves/pages/dashboard/dashboard.component';
 import {InventarioComponent} from './llaves/pages/inventario/inventario.component';
-import {RegistroProductoComponent} from './llaves/pages/registro-producto/registro-producto.component';
 import {RegistroCompraComponent} from './llaves/pages/compra/registro-compra/registro-compra.component';
+import {RegistroProductoComponent} from './llaves/pages/producto/registro/registro-producto.component';
 
 const routes: Routes = [
   {

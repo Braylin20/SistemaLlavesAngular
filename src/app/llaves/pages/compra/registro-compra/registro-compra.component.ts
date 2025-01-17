@@ -10,5 +10,13 @@ import { Component } from '@angular/core';
 export class RegistroCompraComponent {
 
   public descripcion: string = '';
+  loading: boolean = false;
 
+  load() {
+    this.loading = true;
+
+    setTimeout(() => {
+      this.loading = false
+    }, 2000);
+  }
 }
