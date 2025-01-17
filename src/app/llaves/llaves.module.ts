@@ -10,6 +10,8 @@ import {FloatLabel} from 'primeng/floatlabel';
 import {InputText} from 'primeng/inputtext';
 import {Textarea} from 'primeng/textarea';
 import {IftaLabel} from 'primeng/iftalabel';
+import {Button} from 'primeng/button';
+import {Toast} from 'primeng/toast';
 
 
 
@@ -27,7 +29,9 @@ import {IftaLabel} from 'primeng/iftalabel';
     FloatLabel,
     InputText,
     Textarea,
-    IftaLabel
+    IftaLabel,
+    Button,
+    Toast
   ]
 })
 export class LlavesModule { }
