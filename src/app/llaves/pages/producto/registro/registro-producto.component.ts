@@ -5,6 +5,7 @@ import {Proveedores} from '../../../Interfaces/proveedores';
 import {Garantias} from '../../../Interfaces/garantias';
 import {MessageProducto, Producto} from '../../../Interfaces/producto';
 import {MessageService} from 'primeng/api';
+import {MessageProductoFactory, ProductFactory} from '../../../factories/product.factory';
 
 @Component({
   selector: 'llaves-producto',
@@ -15,33 +16,10 @@ import {MessageService} from 'primeng/api';
 })
 export class RegistroProductoComponent implements OnInit {
 
-  public producto: Producto = {
-    productoId: 0,
-    nombre: '',
-    precio: null,
-    costo: null,
-    cantidad: null,
-    itbis: 18,
-    descuento: null,
-    descripcion: '',
-    categoriaId: null,
-    proveedorId: null,
-    garantiaId: null,
-    loading: false
-  };
-  public message: MessageProducto = {
-    errorNombre: '',
-    errorGarantia: '',
-    errorCantidad: '',
-    errorCategoria: '',
-    errorItbis: '',
-    errorDescripcion: '',
-    errorDescuento: '',
-    errorPrecio: '',
-    errorProveedor: '',
-    errorCosto: '',
-    message: ''
-  };
+  public producto: Producto = ProductFactory.createDefault()
+  public message: MessageProducto = MessageProductoFactory.createDefault()
+
+
   public categorias: Categorias[] = [];
   public proveedores: Proveedores[] = [];
   public garantias: Garantias[] = [];
@@ -62,8 +40,6 @@ export class RegistroProductoComponent implements OnInit {
   public showSuccess() {
     this.messageService.add({severity: 'success', summary: 'Éxito', detail: this.message.message});
   }
-
-
 
   public addProducto() {
 
@@ -127,6 +103,10 @@ export class RegistroProductoComponent implements OnInit {
     if(!this.descuentoValido())
       productoValido = false;
     if(!this.categoriaValida())
+      productoValido = false;
+    if(!this.proveedorValido())
+      productoValido = false;
+    if(!this.garantiaValida())
       productoValido = false;
     return productoValido
   }
@@ -205,16 +185,34 @@ export class RegistroProductoComponent implements OnInit {
       return false;
     }
     if(this.producto.descuento > 1000){
-      this.message.errorDescuento = 'No puede ser menor a 1000';
+      this.message.errorDescuento = 'No puede ser mayor a 1000';
       return false;
+    }
+    if(this.producto.descuento > (this.producto.costo ?? 0)){
+      this.message.errorDescuento = 'No puede ser mayor al costo';
     }
     return true;
   }
 
   public categoriaValida(): boolean{
     if(!this.producto.categoriaId){
-      console.log(this.producto.categoriaId);
       this.message.errorCategoria = 'Debe llenar este campo';
+      return false;
+    }
+    return true;
+  }
+
+  public proveedorValido(): boolean{
+    if(!this.producto.proveedorId){
+      this.message.errorProveedor = 'Debe llenar este campo';
+      return false;
+    }
+    return true;
+  }
+
+  public garantiaValida(): boolean{
+    if(!this.producto.garantiaId){
+      this.message.errorGarantia = 'Debe llenar este campo';
       return false;
     }
     return true;
