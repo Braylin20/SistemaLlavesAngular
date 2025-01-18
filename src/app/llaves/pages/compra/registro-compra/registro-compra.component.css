@@ -1,3 +1,9 @@
 .margin {
   margin-right: 10.5rem;
 }
+
+.small-height-datepicker .p-inputtext {
+  height: 30px; /* Ajusta la altura */
+  padding: 4px 8px; /* Ajusta el espacio interno */
+  font-size: 14px; /* Opcional: Ajusta el tamaño de la fuente para encajar */
+}

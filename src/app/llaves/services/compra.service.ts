@@ -7,7 +7,7 @@ import {apiUrl} from '../utils/utils';
 @Injectable({
   providedIn: 'root'
 })
-export class CompraServiceService implements OnInit {
+export class CompraService implements OnInit {
 
   constructor(private readonly httpClient: HttpClient) {
 
@@ -17,6 +17,10 @@ export class CompraServiceService implements OnInit {
   }
   addCompra(compra: Compra): Observable<Compra>{
     return this.httpClient.post<Compra>(`${apiUrl}/compras`, compra);
+  }
+
+  getCompras(): Observable<Compra[]> {
+    return this.httpClient.get<Compra[]>(`${apiUrl}/compras`);
   }
 
 }

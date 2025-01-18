@@ -2,11 +2,12 @@ import {Producto} from './producto';
 
 export interface Compra {
   compraId: number;
-  fecha: string;
+  fecha: Date;
   subtotal: number;
   itbis: number;
   total: number;
-  comprasDetalles: ComprasDetalle[];
+  comprasDetalles: ComprasDetalle[] | null;
+  loading: boolean;
 
 }
 

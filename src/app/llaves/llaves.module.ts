@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {DashboardComponent} from './pages/dashboard/dashboard.component';
 import { InventarioComponent } from './pages/inventario/inventario.component';
 import { RegistroProductoComponent } from './pages/producto/registro/registro-producto.component';
-import {FormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {Select} from 'primeng/select';
 import {InputNumber} from 'primeng/inputnumber';
 import {FloatLabel} from 'primeng/floatlabel';
@@ -13,6 +13,7 @@ import {IftaLabel} from 'primeng/iftalabel';
 import {RegistroCompraComponent} from './pages/compra/registro-compra/registro-compra.component';
 import {Button} from 'primeng/button';
 import {Toast} from 'primeng/toast';
+import {DatePicker} from 'primeng/datepicker';
 
 
 
@@ -33,7 +34,9 @@ import {Toast} from 'primeng/toast';
     Textarea,
     IftaLabel,
     Button,
-    Toast
+    Toast,
+    DatePicker,
+    ReactiveFormsModule
   ]
 })
 export class LlavesModule { }
