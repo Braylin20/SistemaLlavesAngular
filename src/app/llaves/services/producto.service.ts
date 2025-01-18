@@ -18,6 +18,7 @@ export class ProductoService implements OnInit {
 
   ngOnInit() {
     this.getCategorias();
+    this.getProductos();
   }
 
   addProducto(producto: Producto): Observable<Producto> {
@@ -33,5 +34,9 @@ export class ProductoService implements OnInit {
   }
   getGarantias(): Observable<Garantias[]> {
     return this.httpClient.get<Garantias[]>(`${apiUrl}/garantias`)
+  }
+
+  getProductos(): Observable<Producto[]> {
+    return this.httpClient.get<Producto[]>(`${apiUrl}/productos`)
   }
 }

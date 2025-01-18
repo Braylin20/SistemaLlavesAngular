@@ -11,7 +11,6 @@ export class RegistroCompraComponent {
 
   public descripcion: string = '';
   loading: boolean = false;
-
   load() {
     this.loading = true;
 

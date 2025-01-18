@@ -1,3 +1,4 @@
+import {Producto} from './producto';
 
 export interface Compra {
   compraId: number;
@@ -13,9 +14,7 @@ interface ComprasDetalle {
   compraDetalleId: number;
   productoId: number;
   compraId: number;
-  categoriaId: number;
-  proveedorId: number;
-  garantiaId: number;
+  producto: Producto;
   cantidad: number;
   total: number;
 }
