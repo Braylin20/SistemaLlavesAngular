@@ -145,7 +145,7 @@
               size="small"
               name="categoriaId"
               [ngClass]="['w-full', message.errorCategoria ? classValidation : '']"
-              (input)="message.errorCategoria= '' "
+              (onChange)="message.errorCategoria= '' "
             />
             <label for="on_label">Categoria</label>
           </p-floatlabel>
@@ -166,11 +166,14 @@
               optionValue="proovedorId"
               size="small"
               name="proveedorId"
-              class="w-full"
+              [ngClass]="['w-full' , message.errorProveedor ? classValidation : '']"
+              (onChange)="message.errorProveedor= '' "
+
             />
             <label for="on_label">Proveedor</label>
           </p-floatlabel>
         </div>
+
         <div class="flex flex-col col-span-2   gap-1">
           <p-floatlabel variant="on">
             <p-select
@@ -181,7 +184,9 @@
               optionValue="garantiaId"
               size="small"
               name="garantiaId"
-              class="w-full"
+              [ngClass]="['w-full', message.errorGarantia ? classValidation : '']"
+              (onChange)="message.errorGarantia= '' "
+
             />
             <label for="on_label">Garantia</label>
           </p-floatlabel>
