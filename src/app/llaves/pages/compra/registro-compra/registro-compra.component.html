@@ -37,16 +37,22 @@
 
 
   <div class="container border border-gray-800 w-[90%] h-[30%]">
-    <div class="container border-b border-gray-800 p-2 flex justify-between ">
-      <p>Codigo</p>
-      <p>Nombre</p>
-      <p>Cantidad</p>
-      <p>Categoria</p>
-      <p>Costo</p>
-      <p>Precio</p>
-      <p>itbis</p>
-      <p>Total itbis</p>
-      <p>Total</p>
+    <div class="container border-b border-gray-800 p-0 flex justify-between ">
+      <table class="table  w-full p-0 ">
+        <thead>
+        <tr>
+          <th class="p-0">Codigo</th>
+          <th>Nombre</th>
+          <th>Cantidad</th>
+          <th>Categoria</th>
+          <th>Costo</th>
+          <th>Precio</th>
+          <th>itbis</th>
+          <th>Total itbis</th>
+          <th>Total</th>
+        </tr>
+        </thead>
+      </table>
     </div>
   </div>
 
@@ -65,13 +71,34 @@
     </p-floatlabel>
   </div>
   <div class="grid grid-cols-4 border border-gray-800 w-[90%] h-[30%]">
-    <div class="col-span-3 p-2 flex justify-between flex-wrap gap-2">
-      <p>Codigo</p>
-      <p>Nombre</p>
-      <p>Costo</p>
-      <p>Precio</p>
-      <p>Itbis</p>
-      <p>Desc Max</p>
+    <div class="col-span-3   ">
+      <table class="table w-full">
+        <thead>
+        <tr class="bg-gray-200">
+          <th class=" p-0 text-left">Codigo</th>
+          <th class=" px-4 py-2 text-left">Nombre</th>
+          <th class=" px-4 py-2 text-left">Costo</th>
+          <th class=" px-4 py-2 text-left">Precio</th>
+          <th class=" px-4 py-2 text-left">Itbis</th>
+          <th class=" px-4 py-2 text-left">Desc Max</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <tr>
+          @for (producto of productos ; track producto.productoId) {
+            <tr>
+            <td class="border border-gray-800 px-4 py-2">{{ producto.productoId }}</td>
+            <td class="border border-gray-800 px-4 py-2">{{ producto.nombre }}</td>
+            <td class="border border-gray-800 px-4 py-2">{{ producto.costo | currency }}</td>
+            <td class="border border-gray-800 px-4 py-2">{{ producto.precio | currency }}</td>
+            <td class="border border-gray-800 px-4 py-2">{{ producto.itbis | percent }}</td>
+            <td class="border border-gray-800 px-4 py-2">{{ producto.descuento | percent }}</td>
+            </tr>
+          }
+        </tr>
+        </tbody>
+      </table>
     </div>
 
     <!-- Solución corregida con flex y control de ancho -->
