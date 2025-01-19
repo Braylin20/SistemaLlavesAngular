@@ -5,8 +5,8 @@ import {Proveedores} from '../../../Interfaces/proveedores';
 import {Garantias} from '../../../Interfaces/garantias';
 import {MessageProducto, Producto} from '../../../Interfaces/producto';
 import {MessageService} from 'primeng/api';
-import {MessageProductoFactory, ProductFactory} from '../../../factories/product.factory';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {MessageProductoFactory} from '../../../factories/product.factory';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ValidatorService} from '../../../validators/validator.service';
 
 @Component({
@@ -67,7 +67,7 @@ export class RegistroProductoComponent implements OnInit {
         if (this.productoForm.invalid) return;
 
         this.productoService.addProducto(this.currentProducto)
-            .subscribe(producto => {
+            .subscribe(() => {
                 this.message.message = 'Agregado Correctamente';
                 this.showSuccess();
             });
