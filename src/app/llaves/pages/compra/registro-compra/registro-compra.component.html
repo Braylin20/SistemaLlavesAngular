@@ -2,18 +2,17 @@
   <div class="container border border-gray-800 w-[90%] p-2">
     <!-- Fila 1 -->
     <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
-      <p class="w-full sm:w-auto mb-2 sm:mb-0">No. Entrada: {{proximaCompraId}}</p>
+      <p class="w-full sm:w-auto mb-2 sm:mb-0">No. Entrada: {{ proximaCompraId }}</p>
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
         <p class="whitespace-nowrap">Proveedor:</p>
-
 
 
         <select id="proveedores"
                 class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
           <option selected>Elige un proveedor</option>
-          @for (proveedor of proveedores; track proveedor.proovedorId){
+          @for (proveedor of proveedores; track proveedor.proovedorId) {
 
-            <option [value]="proveedor.proovedorId" >{{proveedor.nombre}}</option>
+            <option [value]="proveedor.proovedorId">{{ proveedor.nombre }}</option>
           }
 
         </select>
@@ -24,7 +23,8 @@
     <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
       <div class="flex items-center gap-2">
         <p class="w-full sm:w-auto mb-2 sm:mb-0">Fecha: </p>
-        <p-datepicker [(ngModel)]="compra.fecha" [showButtonBar]="true"  [showIcon]="true" inputId="buttondisplay" readonlyInput class=" h-8 text-sm w-44"></p-datepicker>
+        <p-datepicker [(ngModel)]="compra.fecha" [showButtonBar]="true" [showIcon]="true" inputId="buttondisplay"
+                      readonlyInput class=" h-8 text-sm w-44"></p-datepicker>
       </div>
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
         <p class="whitespace-nowrap">Concepto:</p>
@@ -61,45 +61,75 @@
     <p-floatlabel variant="on">
       <input
         pInputText id="on_label"
-        [(ngModel)]="descripcion  "
+        [(ngModel)]="searchValue  "
         autocomplete="off"
         name="nombre"
         pSize="small"
         class="w-full"
+        (input)="filtrarGlobal(searchValue)"
       />
       <label for="on_label">Nombre</label>
     </p-floatlabel>
   </div>
-  <div class="grid grid-cols-4 border border-gray-800 w-[90%] h-[30%]">
-    <div class="col-span-3   ">
-      <table class="table w-full">
-        <thead>
-        <tr class="bg-gray-200">
-          <th class=" p-0 text-left">Codigo</th>
-          <th class=" px-4 py-2 text-left">Nombre</th>
-          <th class=" px-4 py-2 text-left">Costo</th>
-          <th class=" px-4 py-2 text-left">Precio</th>
-          <th class=" px-4 py-2 text-left">Itbis</th>
-          <th class=" px-4 py-2 text-left">Desc Max</th>
-        </tr>
 
-        </thead>
-        <tbody>
-        <tr>
-          @for (producto of productos ; track producto.productoId) {
-            <tr>
-            <td class="border border-gray-800 px-4 py-2">{{ producto.productoId }}</td>
-            <td class="border border-gray-800 px-4 py-2">{{ producto.nombre }}</td>
-            <td class="border border-gray-800 px-4 py-2">{{ producto.costo | currency }}</td>
-            <td class="border border-gray-800 px-4 py-2">{{ producto.precio | currency }}</td>
-            <td class="border border-gray-800 px-4 py-2">{{ producto.itbis | percent }}</td>
-            <td class="border border-gray-800 px-4 py-2">{{ producto.descuento | percent }}</td>
-            </tr>
-          }
-        </tr>
-        </tbody>
-      </table>
+  <div class="grid grid-cols-4 border border-gray-800 w-[90%] h-[30%]">
+    <div class="col-span-3">
+      <p-table
+        #dt
+        [value]="productosFiltrados"
+        [(selection)]="virtualProducts"
+        dataKey="productoId"
+        [rowHover]="true"
+        [rows]="10"
+        [scrollable]="true"
+        scrollHeight="313px"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="66"
+        [lazy]="true"
+        (onLazyLoad)="loadCarsLazy($event)"
+        [loading]="loading"
+        [filterDelay]="0"
+        [globalFilterFields]="['productoId', 'nombre']"
+      >
+        <ng-template #header>
+          <tr>
+            <th pSortableColumn="productoId" pResizableColumn>
+              Codigo
+              <p-sortIcon field="productoId"></p-sortIcon>
+              <p-columnFilter type="text" field="productoId" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="nombre">
+              Nombre
+              <p-sortIcon field="nombre"></p-sortIcon>
+              <p-columnFilter type="text" field="nombre" display="menu"></p-columnFilter>
+            </th>
+            <th pSortableColumn="costo" pResizableColumn>
+              Costo
+              <p-sortIcon field="costo"></p-sortIcon>
+            </th>
+            <th pSortableColumn="descuento" pResizableColumn>
+            Desc Max
+            <p-sortIcon field="descuento"></p-sortIcon>
+            </th>
+            <th pSortableColumn="precio" pResizableColumn>
+              Precio
+              <p-sortIcon field="precio"></p-sortIcon>
+            </th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-producto>
+          <tr>
+            <td>{{ producto.productoId }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.costo | currency }}</td>
+            <td>{{ producto.descuento | percent }}</td>
+            <td>{{ producto.precio | currency }}</td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
+
+
 
     <!-- Solución corregida con flex y control de ancho -->
     <div class="flex flex-col gap-2 border-l border-gray-800 p-2 w-full ">
@@ -148,7 +178,7 @@
         </p-inputnumber>
       </div>
       <div class="flex justify-center w-full">
-        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" (onClick)="load()" class="text-sm px-2 py-1" />
+        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" (onClick)="load()" class="text-sm px-2 py-1"/>
       </div>
 
     </div>
