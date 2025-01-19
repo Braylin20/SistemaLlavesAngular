@@ -6,15 +6,15 @@ export class ProductFactory{
     return {
       productoId: 0,
       nombre: '',
-      precio: null,
-      costo: null,
-      cantidad: null,
+      precio: 0,
+      costo: 0,
+      cantidad: 0,
       itbis: 18,
-      descuento: null,
+      descuento: 0,
       descripcion: '',
-      categoriaId: null,
-      proveedorId: null,
-      garantiaId: null,
+      categoriaId: 0,
+      proveedorId: 0,
+      garantiaId: 0,
       loading: false,
     };
   }
