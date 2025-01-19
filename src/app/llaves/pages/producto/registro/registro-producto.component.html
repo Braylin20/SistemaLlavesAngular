@@ -1,0 +1,199 @@
+<div class="container h-full flex flex-col justify-center items-center ">
+  <div class=" flex flex-col justify-center items-center gap-6   ">
+
+    <form (ngSubmit)="onSubmit()" [formGroup]="productoForm" class="rounded-lg border-2 border-blue-800 p-24 flex flex-col gap-4">
+      <div class="text-center ">
+        <h3 class="text-3xl font-bold mb-9">Registro de LLave</h3>
+      </div>
+
+      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
+        <div class="flex flex-col jus gap-1 col-span-2 ">
+          <p-floatlabel variant="on">
+            <input
+              pInputText id="on_label"
+              autocomplete="off"
+              pSize="small"
+              formControlName="nombre"
+              class="w-full"
+            />
+            <label for="on_label">Nombre</label>
+          </p-floatlabel>
+          <span *ngIf="isNotValidFiel('nombre')" class="text-sm text-red-400 ml-1">{{message.errorNombre}}</span>
+        </div>
+
+
+        <div class="flex flex-col  gap-1">
+
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              inputId="on_label"
+              mode="currency"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              formControlName="precio"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Precio</label>
+          </p-floatlabel>
+          <span class="text-sm text-red-400 ml-1">{{message.errorPrecio}}</span>
+        </div>
+
+        <div class="flex flex-col  gap-1">
+
+
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              inputId="on_label"
+              mode="currency"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              formControlName="costo"
+            >
+            </p-inputnumber>
+            <label for="on_label">Costo</label>
+          </p-floatlabel>
+          <span class="text-sm text-red-400 ml-1">{{message.errorCosto}}</span>
+        </div>
+
+      </div>
+
+
+      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
+        <div class="flex flex-col  gap-1">
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              mode="decimal"
+              inputId="on_label"
+              [useGrouping]="false"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              formControlName="costo"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Cantidad</label>
+          </p-floatlabel>
+          <span class="text-sm text-red-400 ml-1">{{message.errorCantidad}}</span>
+
+        </div>
+
+
+        <div class="flex flex-col gap-1">
+
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              inputId="on_label"
+              size="small"
+              prefix="%"
+              size="small"
+              formControlName="itbis"
+            ></p-inputnumber>
+            <label for="on_label">Itbis</label>
+          </p-floatlabel>
+          <span class="text-sm text-red-400 ml-1">{{message.errorItbis}}</span>
+
+        </div>
+
+        <div class="flex flex-col  gap-1">
+          <p-floatlabel variant="on">
+            <p-inputnumber
+              inputId="on_label"
+              mode="currency"
+              currency="DOP"
+              locale="en-US"
+              size="small"
+              formControlName="descuento"
+            >
+
+            </p-inputnumber>
+            <label for="on_label">Descuento</label>
+          </p-floatlabel>
+          <span class="text-sm text-red-400 ml-1">{{message.errorDescuento}}</span>
+
+        </div>
+
+        <div class="flex flex-col gap-1">
+
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="categorias"
+              inputId="on_label"
+              optionLabel="nombre"
+              optionValue="categoriaId"
+              size="small"
+              formControlName="categoriaId"
+              class="w-full"
+            />
+            <label for="on_label">Categoria</label>
+          </p-floatlabel>
+          <span class="text-sm text-red-400 ml-1">{{message.errorCategoria}}</span>
+
+        </div>
+
+      </div>
+      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
+
+        <div class="flex flex-col col-span-2 gap-1">
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="proveedores"
+              inputId="on_label"
+              optionLabel="nombre"
+              optionValue="proovedorId"
+              size="small"
+              formControlName="proveedorId"
+              class="w-full"
+            />
+            <label for="on_label">Proveedor</label>
+          </p-floatlabel>
+        </div>
+
+        <div class="flex flex-col col-span-2   gap-1">
+          <p-floatlabel variant="on">
+            <p-select
+              [options]="garantias"
+              inputId="on_label"
+              optionLabel="descripcion"
+              optionValue="garantiaId"
+              size="small"
+              formControlName="garantiaId"
+              class="w-full"
+              required
+            />
+            <label for="on_label">Garantia</label>
+          </p-floatlabel>
+        </div>
+
+      </div>
+      <div class="grid gap-3">
+        <div class="flex flex-col  gap-1">
+          <p-iftalabel>
+            <textarea
+              pTextarea
+              id="description"
+              class="w-full"
+              formControlName="descripcion"
+              cols="12"
+              style="resize: none">
+            </textarea>
+            <label for="description">Descripcion</label>
+          </p-iftalabel>
+        </div>
+
+      </div>
+      <footer>
+        <div class="flex justify-center">
+          <p-button type="submit"  label="Guardar" severity="success"  />
+
+        </div>
+      </footer>
+    </form>
+
+    <p-toast></p-toast>
+  </div>
+
+</div>
