@@ -17,6 +17,7 @@
 
         </select>
       </div>
+
     </div>
 
     <!-- Fila 2 -->
@@ -29,6 +30,7 @@
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
         <p class="whitespace-nowrap">Concepto:</p>
         <textarea id="message"
+
                   class="block w-full text-sm border border-gray-600 p-2 h-[80px]"
                   placeholder="Escribe una descripcion..."></textarea>
       </div>
@@ -37,24 +39,45 @@
 
 
   <div class="container border border-gray-800 w-[90%] h-[30%]">
-    <div class="container border-b border-gray-800 p-0 flex justify-between ">
-      <table class="table  w-full p-0 ">
-        <thead>
+    <div class="container border-b border-gray-800 p-0 flex  ">
+      <p-table
+      [value]="compra.comprasDetalles?? []"
+      [scrollable]="true"
+      scrollHeight="313px"
+      class="w-full"
+    >
+      <ng-template #header>
         <tr>
-          <th class="p-0">Codigo</th>
+          <th>Codigo</th>
           <th>Nombre</th>
           <th>Cantidad</th>
           <th>Categoria</th>
           <th>Costo</th>
           <th>Precio</th>
-          <th>itbis</th>
-          <th>Total itbis</th>
+          <th>ITBIS</th>
+          <th>Total ITBIS</th>
           <th>Total</th>
         </tr>
-        </thead>
-      </table>
+      </ng-template>
+      <ng-template #body let-producto>
+        <tr>
+          <td>{{ producto.productoId }}</td>
+          <td>{{ producto.producto.nombre }}</td>
+          <td>{{ producto.producto.cantidad }}</td>
+          <td>{{ producto.producto.categoria?.nombre || 'Sin categoría' }}</td>
+          <td>{{ producto.producto.costo| number:'1.2-2' }}</td>
+          <td>{{ producto.producto.precio |number:'1.2-2' }}</td>
+          <td>{{0.18 * producto.producto.precio |number:'1.2-2'  }}</td>
+          <td>{{ (producto.producto.itbis * producto.producto.precio ) | number:'1.2-2' }}</td>
+          <td>{{  (producto.producto.itbis * producto.producto.precio)  + (producto.producto.cantidad * producto.producto.precio ) |number:'1.2-2'}}</td>
+          <td (click)="eliminarProducto(producto.productoId)">   <i class="pi pi-trash text-white bg-red-500 p-2 rounded-lg text-2xl cursor-pointer hover:bg-red-600 hover:scale-110 transition-transform"></i></td>
+        </tr>
+      </ng-template>
+    </p-table>
     </div>
   </div>
+
+
 
 
   <div class="container  w-[92%] px-2">
@@ -78,57 +101,39 @@
         #dt
         [value]="productosFiltrados"
         [(selection)]="virtualProducts"
-        dataKey="productoId"
+        selectionMode="single"
         [rowHover]="true"
         [rows]="10"
+        [filterDelay]="0"
         [scrollable]="true"
         scrollHeight="313px"
         [virtualScroll]="true"
         [virtualScrollItemSize]="66"
         [lazy]="true"
         (onLazyLoad)="loadCarsLazy($event)"
-        [loading]="loading"
-        [filterDelay]="0"
-        [globalFilterFields]="['productoId', 'nombre']"
+        (onRowSelect)="onRowSelect($event)"
       >
         <ng-template #header>
           <tr>
-            <th pSortableColumn="productoId" pResizableColumn>
-              Codigo
-              <p-sortIcon field="productoId"></p-sortIcon>
-              <p-columnFilter type="text" field="productoId" display="menu"></p-columnFilter>
-            </th>
-            <th pSortableColumn="nombre">
-              Nombre
-              <p-sortIcon field="nombre"></p-sortIcon>
-              <p-columnFilter type="text" field="nombre" display="menu"></p-columnFilter>
-            </th>
-            <th pSortableColumn="costo" pResizableColumn>
-              Costo
-              <p-sortIcon field="costo"></p-sortIcon>
-            </th>
-            <th pSortableColumn="descuento" pResizableColumn>
-            Desc Max
-            <p-sortIcon field="descuento"></p-sortIcon>
-            </th>
-            <th pSortableColumn="precio" pResizableColumn>
-              Precio
-              <p-sortIcon field="precio"></p-sortIcon>
-            </th>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Costo</th>
+            <th>Desc Max</th>
+            <th>Precio</th>
           </tr>
         </ng-template>
         <ng-template #body let-producto>
-          <tr>
+          <tr [pSelectableRow]="producto">
             <td>{{ producto.productoId }}</td>
             <td>{{ producto.nombre }}</td>
             <td>{{ producto.costo | currency }}</td>
             <td>{{ producto.descuento | percent }}</td>
             <td>{{ producto.precio | currency }}</td>
+
           </tr>
         </ng-template>
       </p-table>
     </div>
-
 
 
     <!-- Solución corregida con flex y control de ancho -->
@@ -137,7 +142,7 @@
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">SubTotal</p>
         <p-inputnumber
-          [(ngModel)]="descripcion"
+          [(ngModel)]="compra.subtotal"
           inputId="currency-us"
           mode="currency"
           currency="DOP"
@@ -152,7 +157,7 @@
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">Itbis</p>
         <p-inputnumber
-          [(ngModel)]="descripcion"
+          [(ngModel)]="compra.itbis"
           inputId="currency-us"
           mode="currency"
           currency="DOP"
@@ -167,7 +172,7 @@
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">Total</p>
         <p-inputnumber
-          [(ngModel)]="descripcion"
+          [(ngModel)]="compra.total"
           inputId="currency-us"
           mode="currency"
           currency="DOP"

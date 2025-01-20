@@ -1,3 +1,5 @@
+@import "primeicons/primeicons.css";
+
 .margin {
   margin-right: 10.5rem;
 }
@@ -7,3 +9,42 @@
   padding: 4px 8px; /* Ajusta el espacio interno */
   font-size: 14px; /* Opcional: Ajusta el tamaño de la fuente para encajar */
 }
+
+.responsive-table {
+  overflow-x: auto; /* Permite scroll horizontal cuando el contenido no cabe */
+}
+
+.p-datatable-gridlines {
+  width: 100%; /* Asegura que la tabla ocupe el 100% del espacio disponible */
+}
+
+.p-datatable th,
+.p-datatable td {
+  white-space: nowrap; /* Evita que el texto se rompa en varias líneas */
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .responsive-table {
+    scroll-behavior: smooth; /* Hace que el scroll horizontal sea suave */
+  }
+
+  .p-datatable th,
+  .p-datatable td {
+    font-size: 0.85rem; /* Reduce el tamaño de la fuente en pantallas pequeñas */
+    padding: 0.5rem; /* Reduce el padding interno */
+  }
+
+  .p-datatable-gridlines {
+    min-width: 100%; /* Hace que la tabla se adapte mejor */
+  }
+}
+
+@media (max-width: 480px) {
+  .p-datatable th,
+  .p-datatable td {
+    font-size: 0.75rem; /* Tamaño de fuente más pequeño para móviles */
+    padding: 0.25rem; /* Aún más compacto */
+  }
+}
+

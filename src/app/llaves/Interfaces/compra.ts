@@ -11,7 +11,7 @@ export interface Compra {
 
 }
 
-interface ComprasDetalle {
+ export interface ComprasDetalle {
   compraDetalleId: number;
   productoId: number;
   compraId: number;

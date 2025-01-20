@@ -14,6 +14,7 @@ import {RegistroCompraComponent} from './pages/compra/registro-compra/registro-c
 import {Button} from 'primeng/button';
 import {Toast} from 'primeng/toast';
 import {DatePicker} from 'primeng/datepicker';
+import {TableModule} from 'primeng/table';
 
 
 
@@ -36,7 +37,8 @@ import {DatePicker} from 'primeng/datepicker';
     Button,
     Toast,
     DatePicker,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    TableModule
   ]
 })
 export class LlavesModule { }

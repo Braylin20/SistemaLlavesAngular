@@ -1,3 +1,4 @@
+import {Categorias} from './categorias';
 
 
 export interface Producto {
@@ -13,6 +14,7 @@ export interface Producto {
   proveedorId?: number | null;
   garantiaId?: number | null;
   loading: boolean;
+  categoria?:Categorias| null;
 }
 
 
