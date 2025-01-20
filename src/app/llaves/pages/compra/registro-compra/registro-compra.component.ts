@@ -30,18 +30,18 @@ export class RegistroCompraComponent  implements OnInit {
   public virtualProducts?: Producto[];
   protected searchValue: string = '';
   public productosFiltrados: Producto[] = []
-
+  public compra: Compra = CompraFactory.createDefault();
   public categorias : Categorias[] = [];
 
-  load() {
+  AddCompraLoad() {
     this.loading = true;
+
+    this.addCompra(this.compra)
+
     setTimeout(() => {
       this.loading = false
     }, 2000);
   }
-  public compra: Compra = CompraFactory.createDefault();
-
-
   constructor(
     private readonly compraService: CompraService,
     private readonly productoService: ProductoService,
@@ -49,7 +49,6 @@ export class RegistroCompraComponent  implements OnInit {
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef
   ) {
-
   }
   ngOnInit() {
     this.getProveedores()
@@ -66,12 +65,10 @@ export class RegistroCompraComponent  implements OnInit {
 
     this.getCategorias()
     setTimeout(() => {
-      this.getProductosConCategorias(); // Productos con categorías asignadas
+      this.getProductosConCategorias();
     }, 500);
 
   }
-
-
 
   public getProductosConCategorias(): void {
     this.productoService.getProductos().subscribe((productos) => {
@@ -90,19 +87,16 @@ export class RegistroCompraComponent  implements OnInit {
       console.log('Categorías cargadas:', this.categorias);
     });
   }
-
   public getProveedores() {
     this.productoService.getProveedores()
       .subscribe(proveedores => this.proveedores = proveedores);
   }
-
   public getProductos() {
     this.productoService.getProductos()
       .subscribe(productos => {this.productos = productos
         this.productosFiltrados = [...this.productos];
       });
   }
-
   public getCompras() {
     this.compraService.getCompras()
       .subscribe(compras => {
@@ -110,13 +104,11 @@ export class RegistroCompraComponent  implements OnInit {
         this.proximaCompraId = siguienteId.toString().padStart(5, '0');
       });
   }
-
-  public addCompra(){
-    this.compraService.addCompra(this.compra).subscribe(
+  public addCompra(compra: Compra){
+    this.compraService.addCompra(compra).subscribe(
 
     )
   }
-
   loadCarsLazy(event: TableLazyLoadEvent) {
 
     setTimeout(() => {
@@ -139,10 +131,17 @@ export class RegistroCompraComponent  implements OnInit {
     );
   }
   recalcularTotales(): void {
-    const subTotal = this.compra.comprasDetalles?.reduce((suma, detalle) => suma + detalle.producto.costo! * detalle.cantidad, 0) || 0;
-    const itbis = this.compra.comprasDetalles?.reduce((suma, detalle) => suma + detalle.producto.itbis! * detalle.cantidad, 0) || 0;
-    const total = subTotal + itbis;
+    const subTotal = this.compra.comprasDetalles?.reduce(
+      (suma, detalle) => suma + (detalle.producto.precio! * detalle.cantidad),
+      0
+    ) || 0;
 
+    const itbis = this.compra.comprasDetalles?.reduce(
+      (suma, detalle) => suma + (detalle.producto.precio! * detalle.cantidad * 0.18), // ITBIS del 18%
+      0
+    ) || 0;
+
+    const total = subTotal + itbis
     this.compra.subtotal = parseFloat(subTotal.toFixed(2));
     this.compra.itbis = parseFloat(itbis.toFixed(2));
     this.compra.total = parseFloat(total.toFixed(2));
@@ -154,9 +153,9 @@ export class RegistroCompraComponent  implements OnInit {
     );
 
     if (detallesFiltrados.length !== detallesOriginales.length) {
-      this.compra.comprasDetalles = [...detallesFiltrados]; // Asignar nueva referencia
+      this.compra.comprasDetalles = [...detallesFiltrados];
       console.log(`Producto con ID ${productoId} eliminado`);
-      this.recalcularTotales(); // Vuelve a calcular los totales después de eliminar
+      this.recalcularTotales();
     } else {
       console.warn(`Producto con ID ${productoId} no encontrado`);
     }
@@ -193,7 +192,7 @@ export class RegistroCompraComponent  implements OnInit {
           compraId: 0,
           producto: productoSeleccionado,
           cantidad,
-          total: parseFloat((total + itbis).toFixed(2)),
+          total: 2,
         },
       ];
 

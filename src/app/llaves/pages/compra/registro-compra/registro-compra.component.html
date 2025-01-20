@@ -59,18 +59,18 @@
           <th>Total</th>
         </tr>
       </ng-template>
-      <ng-template #body let-producto>
+      <ng-template #body let-detalleCompra>
         <tr>
-          <td>{{ producto.productoId }}</td>
-          <td>{{ producto.producto.nombre }}</td>
-          <td>{{ producto.producto.cantidad }}</td>
-          <td>{{ producto.producto.categoria?.nombre || 'Sin categoría' }}</td>
-          <td>{{ producto.producto.costo| number:'1.2-2' }}</td>
-          <td>{{ producto.producto.precio |number:'1.2-2' }}</td>
-          <td>{{0.18 * producto.producto.precio |number:'1.2-2'  }}</td>
-          <td>{{ (producto.producto.itbis * producto.producto.precio ) | number:'1.2-2' }}</td>
-          <td>{{  (producto.producto.itbis * producto.producto.precio)  + (producto.producto.cantidad * producto.producto.precio ) |number:'1.2-2'}}</td>
-          <td (click)="eliminarProducto(producto.productoId)">   <i class="pi pi-trash text-white bg-red-500 p-2 rounded-lg text-2xl cursor-pointer hover:bg-red-600 hover:scale-110 transition-transform"></i></td>
+          <td>{{ detalleCompra.productoId }}</td>
+          <td>{{ detalleCompra.producto.nombre }}</td>
+          <td>{{ detalleCompra.producto.cantidad }}</td>
+          <td>{{ detalleCompra.producto.categoria?.nombre || 'Sin categoría' }}</td>
+          <td>{{ detalleCompra.producto.costo| number:'1.2-2' }}</td>
+          <td>{{ detalleCompra.producto.precio |number:'1.2-2' }}</td>
+          <td>{{0.18 * detalleCompra.producto.precio |number:'1.2-2'  }}</td>
+          <td>{{ (0.18 * detalleCompra.producto.precio  * detalleCompra.producto.cantidad ) | number:'1.2-2' }}</td>
+          <td>{{  (0.18 * detalleCompra.producto.precio  * detalleCompra.producto.cantidad ) + (detalleCompra.producto.cantidad * detalleCompra.producto.precio ) |number:'1.2-2'}}</td>
+          <td (click)="eliminarProducto(detalleCompra.productoId)">   <i class="pi pi-trash text-white bg-red-500 p-2 rounded-lg text-2xl cursor-pointer hover:bg-red-600 hover:scale-110 transition-transform"></i></td>
         </tr>
       </ng-template>
     </p-table>
@@ -183,7 +183,7 @@
         </p-inputnumber>
       </div>
       <div class="flex justify-center w-full">
-        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" (onClick)="load()" class="text-sm px-2 py-1"/>
+        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" (onClick)="AddCompraLoad()" class="text-sm px-2 py-1"/>
       </div>
 
     </div>
