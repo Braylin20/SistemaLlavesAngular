@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'ventas-historial-page',
+  selector: 'historial-page',
   standalone: false,
 
   templateUrl: './ventas-historial.component.html',
