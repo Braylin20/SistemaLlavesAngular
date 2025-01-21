@@ -14,6 +14,7 @@ import {RegistroCompraComponent} from './pages/compra/registro-compra/registro-c
 import {Button} from 'primeng/button';
 import {Toast} from 'primeng/toast';
 import {DatePicker} from 'primeng/datepicker';
+import { CuadreCajaComponent } from './pages/Cuadre/cuadre-caja/cuadre-caja.component';
 
 
 
@@ -23,6 +24,7 @@ import {DatePicker} from 'primeng/datepicker';
     InventarioComponent,
     RegistroProductoComponent,
     RegistroCompraComponent,
+    CuadreCajaComponent,
   ],
   imports: [
     CommonModule,
