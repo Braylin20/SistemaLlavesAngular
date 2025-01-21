@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {ProductoService} from '../../../services/producto.service';
 import {Categorias} from '../../../Interfaces/categorias';
 import {Proveedores} from '../../../Interfaces/proveedores';
 import {Garantias} from '../../../Interfaces/garantias';
 import {MessageProducto, Producto} from '../../../Interfaces/producto';
 import {MessageService} from 'primeng/api';
-import {MessageProductoFactory, ProductFactory} from '../../../factories/product.factory';
+import {MessageProductoFactory} from '../../../factories/product.factory';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ValidatorService} from '../../../validators/validator.service';
 
 @Component({
   selector: 'llaves-producto',
@@ -16,46 +18,68 @@ import {MessageProductoFactory, ProductFactory} from '../../../factories/product
 })
 export class RegistroProductoComponent implements OnInit {
 
-  public producto: Producto = ProductFactory.createDefault()
+
+  public formBuilder = inject(FormBuilder)
   public message: MessageProducto = MessageProductoFactory.createDefault()
 
 
   public categorias: Categorias[] = [];
   public proveedores: Proveedores[] = [];
   public garantias: Garantias[] = [];
-  public classValidation = ''
+  public classValidation = 'ng-dirty ng-invalid'
 
   constructor(
     private readonly productoService: ProductoService,
-    private readonly messageService: MessageService
+    private readonly messageService: MessageService,
+    private readonly validatorService: ValidatorService,
   ) {
   }
+
+  public productoForm!: FormGroup;
 
   ngOnInit() {
     this.getCategorias();
     this.getProveedores();
     this.getGarantias();
+    this.productoForm = this.formBuilder.group({
+      productoId: [0],
+      nombre: ['', [Validators.required]],
+      precio: [null, [Validators.required, Validators.max(100000)]],
+      costo: [null, [Validators.required]],
+      cantidad: [null, [Validators.required, Validators.max(100000)]],
+      itbis: [18, [ Validators.max(18)]],
+      descuento: [null,[Validators.required, Validators.max(100)]],
+      descripcion: [''],
+      categoriaId: [null,[Validators.required]],
+      proveedorId: [null,[Validators.required]],
+      garantiaId: [null,[Validators.required]],
+      loading: [null],
+    }, {
+      validators: [
+        this.validatorService.isCostoFewerPrecio('precio', 'costo')
+      ]
+    })
   }
 
   public showSuccess() {
     this.messageService.add({severity: 'success', summary: 'Éxito', detail: this.message.message});
   }
 
-  public addProducto() {
+  public get currentProducto(): Producto {
+    return this.productoForm.value as Producto;
+  }
 
-    if (!this.productoValido()) {
-      this.classValidation ='ng-invalid ng-dirty'
-      return;
-    }
-    this.producto.loading = true
-    this.productoService.addProducto(this.producto)
-      .subscribe(producto => {
-        if (producto) {
-          this.nuevo()
-          this.message.message = 'Agregado Correctamente'
-          this.showSuccess()
+  public onSubmit() {
+    if (this.productoForm.invalid) return;
+
+    this.productoService.addProducto(this.currentProducto)
+      .subscribe((prodcuto) => {
+        if(prodcuto){
+          this.showSuccess();
+          this.productoForm.reset()
         }
-      })
+      });
+
   }
 
   public getCategorias() {
@@ -73,148 +97,15 @@ export class RegistroProductoComponent implements OnInit {
       .subscribe(garantias => this.garantias = garantias);
   }
 
-  public nuevo(): void {
-    this.producto = {
-      nombre: '',
-      precio: null,
-      loading: false,
-      descripcion: '',
-      categoriaId: null,
-      garantiaId: null,
-      proveedorId: null,
-      costo: null,
-      itbis: null,
-      descuento: null,
-      cantidad: null,
-    }
-  }
-  public productoValido(): boolean {
-    let productoValido = true;
-    if(!this.nombreValido())
-      productoValido = false;
-    if(!this.precioValido())
-      productoValido = false;
-    if(!this.costoValido())
-      productoValido = false;
-    if(!this.cantidadValida())
-      productoValido = false;
-    if(!this.itbisValido())
-      productoValido = false;
-    if(!this.descuentoValido())
-      productoValido = false;
-    if(!this.categoriaValida())
-      productoValido = false;
-    if(!this.proveedorValido())
-      productoValido = false;
-    if(!this.garantiaValida())
-      productoValido = false;
-    return productoValido
+  public isNotValidField(field: string) {
+    return this.validatorService.isNotValidField(this.productoForm, field);
   }
 
-  public nombreValido(): boolean {
-    if (!this.producto.nombre){
-      this.message.errorNombre = 'Debe llenar este campo';
-      return false;
-    }
-    if (this.producto.nombre.length < 5){
-      this.message.errorNombre = 'Escriba un nombre valido';
-      return false;
-    }
-    return true;
-
+  public hasMaxError(field: string) {
+    return this.validatorService.hasMaxError(this.productoForm, field);
   }
 
-  public precioValido(): boolean{
-    if(!this.producto.precio){
-      this.message.errorPrecio = 'Debe llenar este campo';
-      return false;
-    }
-    if(this.producto.precio < 0 || this.producto.precio > 50000){
-      this.message.errorPrecio = 'Valor no valido';
-      return false;
-    }
-    return true;
-  }
-
-  public costoValido(): boolean{
-    if(!this.producto.costo){
-      this.message.errorCosto = 'Debe llenar este campo';
-      return false;
-    }
-    if(this.producto.costo < 0 || this.producto.costo > 50000){
-      this.message.errorPrecio = 'Valor no valido';
-      return false;
-    }
-    if(this.producto.costo > (this.producto.precio ?? 0)){
-      this.message.errorCosto = 'Costo debe ser menor al precio'
-      return false
-    }
-    return true;
-  }
-
-  public cantidadValida(): boolean{
-    if(!this.producto.cantidad){
-      this.message.errorCantidad = 'Debe llenar este campo';
-      return false;
-    }
-    if(this.producto.cantidad < 1 || this.producto.cantidad > 100){
-      this.message.errorCantidad = 'El valor debe se mayor a 1';
-      return false;
-    }
-    return true;
-  }
-
-  public itbisValido(): boolean{
-    if(!this.producto.itbis){
-      this.message.errorItbis = 'Debe llenar este campo';
-      return false;
-    }
-    if(this.producto.itbis < 0 || this.producto.itbis > 18){
-      this.message.errorItbis = 'Debe ser válido';
-    }
-    return true;
-  }
-
-  public descuentoValido(): boolean{
-    if(!this.producto.descuento){
-      this.message.errorDescuento = 'Debe llenar este campo';
-      return false;
-    }
-    if(this.producto.descuento < 0){
-      this.message.errorDescuento = 'No puede ser menor a 0';
-      return false;
-    }
-    if(this.producto.descuento > 1000){
-      this.message.errorDescuento = 'No puede ser mayor a 1000';
-      return false;
-    }
-    if(this.producto.descuento > (this.producto.costo ?? 0)){
-      this.message.errorDescuento = 'No puede ser mayor al costo';
-    }
-    return true;
-  }
-
-  public categoriaValida(): boolean{
-    if(!this.producto.categoriaId){
-      this.message.errorCategoria = 'Debe llenar este campo';
-      return false;
-    }
-    return true;
-  }
-
-  public proveedorValido(): boolean{
-    if(!this.producto.proveedorId){
-      this.message.errorProveedor = 'Debe llenar este campo';
-      return false;
-    }
-    return true;
-  }
-
-  public garantiaValida(): boolean{
-    if(!this.producto.garantiaId){
-      this.message.errorGarantia = 'Debe llenar este campo';
-      return false;
-    }
-    return true;
+  public isCostoHigherPrecio(field: string) {
+    return this.productoForm.get(field)?.hasError('isHigher')
   }
 }

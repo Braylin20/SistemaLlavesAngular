@@ -1,26 +1,24 @@
 <div class="container h-full flex flex-col justify-center items-center ">
-  <div class=" flex flex-col justify-center items-center gap-6   ">
+  <div class=" w-[80%] flex flex-col justify-center items-center gap-6 sm:w-[80%] ">
 
-    <form (ngSubmit)="addProducto()"  class="rounded-lg border-2 border-blue-800 p-24 flex flex-col gap-4">
+    <form (ngSubmit)="onSubmit()" [formGroup]="productoForm" class="rounded-lg border-2 border-blue-800 p-10 sm:p-10 lg:p-24 flex flex-col gap-4">
       <div class="text-center ">
-        <h3 class="text-3xl font-bold mb-9">Registro de LLave</h3>
+        <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-9">Registro de LLave</h3>
       </div>
 
-      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
-        <div class="flex flex-col jus gap-1 col-span-2 ">
+      <div class="grid grid-flow-row-dense 2xl:grid-cols-4 lg:grid-cols-3  sm:grid-cols-2 gap-3">
+        <div class="flex flex-col jus gap-1 2xl:col-span-2 lg:col-span-1 sm:col-span-1  ">
           <p-floatlabel variant="on">
             <input
               pInputText id="on_label"
-              [(ngModel)]="producto.nombre"
               autocomplete="off"
-              name="nombre"
               pSize="small"
-              [ngClass]="['w-full',  message.errorNombre ? classValidation : '']"
-              (input)="message.errorNombre = '' "
+              formControlName="nombre"
+              class="w-full"
             />
             <label for="on_label">Nombre</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorNombre}}</span>
+          <span *ngIf="isNotValidField('nombre')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
         </div>
 
 
@@ -28,168 +26,163 @@
 
           <p-floatlabel variant="on">
             <p-inputnumber
-              [(ngModel)]="producto.precio"
               inputId="on_label"
               mode="currency"
               currency="DOP"
               locale="en-US"
               size="small"
-              name="precio"
-              (onInput)="message.errorPrecio = '' "
-              [ngClass]="message.errorPrecio ? classValidation : '' "
+              formControlName="precio"
+              min="0"
+              class="md:w-full w-full"
             >
 
             </p-inputnumber>
             <label for="on_label">Precio</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorPrecio}}</span>
+          <span *ngIf="isNotValidField('precio')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+          <span *ngIf="hasMaxError('precio')" class="text-sm text-red-400 ml-1">No puede ser mayor a 100000</span>
         </div>
 
-        <div class="flex flex-col  gap-1">
-
-
-          <p-floatlabel variant="on">
+        <div class="flex flex-col gap-1 lg:col-span-1 lg:justify-start lg:items-start sm:col-span-3 sm:justify-center sm:items-center">
+          <p-floatlabel variant="on" class="md:w-[60%]">
             <p-inputnumber
-              [(ngModel)]="producto.costo"
               inputId="on_label"
               mode="currency"
               currency="DOP"
               locale="en-US"
               size="small"
-              name="costo"
-              [ngClass]="message.errorCosto ? classValidation : ''"
-              (onInput)="message.errorCosto = '' "
+              formControlName="costo"
+              min="0"
+              class="md:w-full w-full"
             >
             </p-inputnumber>
             <label for="on_label">Costo</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorCosto}}</span>
+
+          <span *ngIf="isNotValidField('costo')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+          <span *ngIf="isCostoHigherPrecio('costo')" class="text-sm text-red-400 ml-1">El costo debe ser menor al precio</span>
+
         </div>
 
       </div>
 
 
-      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
+      <div class="grid grid-flow-row-dense 2xl:grid-cols-4 lg:grid-cols-3 sm:grid-cols-2 gap-3">
         <div class="flex flex-col  gap-1">
-          <p-floatlabel variant="on">
+          <p-floatlabel variant="on" class="w-full">
             <p-inputnumber
-              [(ngModel)]="producto.cantidad"
               mode="decimal"
               inputId="on_label"
               [useGrouping]="false"
               currency="DOP"
               locale="en-US"
               size="small"
-              name="costo"
-              [ngClass]="message.errorCantidad ? classValidation: '' "
-              (onInput)="message.errorCantidad = '' "
+              formControlName="cantidad"
+              min="0"
+              class="w-full"
             >
 
             </p-inputnumber>
             <label for="on_label">Cantidad</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorCantidad}}</span>
+          <span *ngIf="isNotValidField('cantidad')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+          <span *ngIf="hasMaxError('cantidad')" class="text-sm text-red-400 ml-1">No puede ser mayor a 100000</span>
 
         </div>
 
 
         <div class="flex flex-col gap-1">
 
-          <p-floatlabel variant="on">
+          <p-floatlabel variant="on" class="w-full">
             <p-inputnumber
-              [(ngModel)]="producto.itbis"
               inputId="on_label"
               size="small"
               prefix="%"
               size="small"
-              name="itbis"
-              [ngClass]="message.errorItbis ? classValidation : '' "
-              (onInput)="message.errorItbis = '' "
+              formControlName="itbis"
+              max="18"
+              min="0"
+              class="w-full"
             ></p-inputnumber>
             <label for="on_label">Itbis</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorItbis}}</span>
+          <span *ngIf="isNotValidField('itbis')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+          <span *ngIf="hasMaxError('itbis')" class="text-sm text-red-400 ml-1">No puede ser mayor a 18</span>
 
         </div>
 
         <div class="flex flex-col  gap-1">
-          <p-floatlabel variant="on">
+          <p-floatlabel variant="on" class="w-full">
             <p-inputnumber
-              [(ngModel)]="producto.descuento"
               inputId="on_label"
-              mode="currency"
-              currency="DOP"
-              locale="en-US"
               size="small"
-              name="descuento"
-              [ngClass]="message.errorDescuento ? classValidation : '' "
-              (onInput)="message.errorDescuento = '' "
-            >
-
-            </p-inputnumber>
-            <label for="on_label">Descuento</label>
+              prefix="%"
+              size="small"
+              formControlName="descuento"
+              min="0"
+              class="w-full"
+            ></p-inputnumber>
+            <label for="on_label">Descuento Max</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorDescuento}}</span>
+          <span *ngIf="isNotValidField('descuento')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+          <span *ngIf="hasMaxError('descuento')" class="text-sm text-red-400 ml-1">No puede ser mayor al 100%</span>
 
         </div>
 
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 lg:col-span-3 2xl:col-span-1">
 
           <p-floatlabel variant="on">
             <p-select
               [options]="categorias"
-              [(ngModel)]="producto.categoriaId"
               inputId="on_label"
               optionLabel="nombre"
               optionValue="categoriaId"
               size="small"
-              name="categoriaId"
-              [ngClass]="['w-full', message.errorCategoria ? classValidation : '']"
-              (onChange)="message.errorCategoria= '' "
+              formControlName="categoriaId"
+              class="w-full"
             />
             <label for="on_label">Categoria</label>
           </p-floatlabel>
-          <span class="text-sm text-red-400 ml-1">{{message.errorCategoria}}</span>
+          <span *ngIf="isNotValidField('categoriaId')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
 
         </div>
 
       </div>
-      <div class="grid grid-flow-row-dense grid-cols-4 gap-3">
+      <div class="grid grid-flow-row-dense sm:grid-cols-4 gap-3">
 
         <div class="flex flex-col col-span-2 gap-1">
           <p-floatlabel variant="on">
             <p-select
               [options]="proveedores"
-              [(ngModel)]="producto.proveedorId"
               inputId="on_label"
               optionLabel="nombre"
               optionValue="proovedorId"
               size="small"
-              name="proveedorId"
-              [ngClass]="['w-full' , message.errorProveedor ? classValidation : '']"
-              (onChange)="message.errorProveedor= '' "
-
+              formControlName="proveedorId"
+              class="w-full"
             />
             <label for="on_label">Proveedor</label>
           </p-floatlabel>
+          <span *ngIf="isNotValidField('proveedorId')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+
         </div>
 
         <div class="flex flex-col col-span-2   gap-1">
           <p-floatlabel variant="on">
             <p-select
               [options]="garantias"
-              [(ngModel)]="producto.garantiaId"
               inputId="on_label"
               optionLabel="descripcion"
               optionValue="garantiaId"
               size="small"
-              name="garantiaId"
-              [ngClass]="['w-full', message.errorGarantia ? classValidation : '']"
-              (onChange)="message.errorGarantia= '' "
-
+              formControlName="garantiaId"
+              class="w-full"
+              required
             />
             <label for="on_label">Garantia</label>
           </p-floatlabel>
+          <span *ngIf="isNotValidField('garantiaId')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+
         </div>
 
       </div>
@@ -199,11 +192,11 @@
             <textarea
               pTextarea
               id="description"
-              [(ngModel)]="producto.descripcion"
-              class="w-full"
-              name="descripcion"
-              cols="12"
-              style="resize: none">
+              class="w-full text-sm"
+              formControlName="descripcion"
+              cols="15"
+              style="resize: none"
+            >
             </textarea>
             <label for="description">Descripcion</label>
           </p-iftalabel>
@@ -212,7 +205,7 @@
       </div>
       <footer>
         <div class="flex justify-center">
-          <p-button type="submit"  label="Guardar" severity="success" [loading]="producto.loading" />
+          <p-button type="submit"  label="Guardar" severity="success"  />
 
         </div>
       </footer>

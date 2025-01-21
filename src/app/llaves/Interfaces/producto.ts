@@ -2,17 +2,17 @@ import {Categorias} from './categorias';
 
 
 export interface Producto {
-  productoId?: number;
+  productoId: number;
   nombre: string ;
-  precio?: number | null;
-  costo?: number | null;
-  cantidad?: number | null;
-  itbis?: number | null;
-  descuento?: number | null;
+  precio: number ;
+  costo: number ;
+  cantidad: number ;
+  itbis: number;
+  descuento: number ;
   descripcion: string;
-  categoriaId?: number | null;
-  proveedorId?: number | null;
-  garantiaId?: number | null;
+  categoriaId: number ;
+  proveedorId: number ;
+  garantiaId: number ;
   loading: boolean;
   categoria?:Categorias| null;
 }
