@@ -4,6 +4,7 @@ import {DashboardComponent} from './llaves/pages/dashboard/dashboard.component';
 import {InventarioComponent} from './llaves/pages/inventario/inventario.component';
 import {RegistroCompraComponent} from './llaves/pages/compra/registro-compra/registro-compra.component';
 import {RegistroProductoComponent} from './llaves/pages/producto/registro/registro-producto.component';
+import {CuadreCajaComponent} from './llaves/pages/Cuadre/cuadre-caja/cuadre-caja.component';
 
 const routes: Routes = [
   {
@@ -21,6 +22,10 @@ const routes: Routes = [
   {
     path: 'registro-compra',
     component: RegistroCompraComponent
+  },
+  {
+    path: 'cuadre-caja',
+    component: CuadreCajaComponent
   },
   {
     path: '**',
