@@ -66,7 +66,7 @@ export class RegistroProductoComponent implements OnInit {
   }
 
   public get currentProducto(): Producto {
-    return this.productoForm.value as unknown as Producto;
+    return this.productoForm.value as Producto;
   }
 
   public onSubmit() {
