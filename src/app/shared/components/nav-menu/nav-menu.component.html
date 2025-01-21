@@ -26,7 +26,6 @@
     </li>
     <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
 
-      <!-- Encabezado del menú con iconos -->
       <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('compras')">
         <img *ngIf="!submenus['compras']" src="./IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
         <img *ngIf="submenus['compras']" src="./IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
@@ -50,14 +49,12 @@
 
     <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
 
-      <!-- Encabezado del menú con iconos -->
       <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('ventas')">
         <img *ngIf="!submenus['ventas']" src="./IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
         <img *ngIf="submenus['ventas']" src="./IconsNav/navArrowUp.svg" class="w-6" alt="Ocultar submenú"/>
         <span class="ml-2">Ventas</span>
     </span>
 
-      <!-- Submenú con hover aplicado correctamente en todo el contenedor -->
       <ul *ngIf="submenus['ventas']" class="list-none flex flex-col items-start space-y-2">
         <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
           <span class="list-disc mr-2 pr-16">• Registrar</span>
