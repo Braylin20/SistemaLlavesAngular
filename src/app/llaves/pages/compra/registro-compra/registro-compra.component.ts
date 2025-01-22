@@ -4,13 +4,13 @@ import {Compra, ComprasDetalle} from '../../../Interfaces/compra';
 import {CompraService} from '../../../services/compra.service';
 import {ProductoService} from '../../../services/producto.service';
 import {Proveedores} from '../../../Interfaces/proveedores';
-import {FormArray, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormArray, FormBuilder, FormGroup, ValidationErrors, Validators} from '@angular/forms';
 import {Producto} from '../../../Interfaces/producto';
-import {SelectItem} from 'primeng/api';
+
 import {TableLazyLoadEvent} from 'primeng/table';
 import {CategoriaService} from '../../../services/categoria.service';
 import {Categorias} from '../../../Interfaces/categorias';
-import {catchError} from 'rxjs';
+
 import {ValidatorService} from '../../../validators/validator.service';
 
 
@@ -21,7 +21,7 @@ import {ValidatorService} from '../../../validators/validator.service';
   templateUrl: './registro-compra.component.html',
   styleUrl: './registro-compra.component.css'
 })
-export class RegistroCompraComponent  implements OnInit {
+export class RegistroCompraComponent implements OnInit {
   registroForm!: FormGroup;
   loading: boolean = false;
   public proveedores: Proveedores[] = [];
@@ -31,10 +31,11 @@ export class RegistroCompraComponent  implements OnInit {
   protected searchValue: string = '';
   public productosFiltrados: Producto[] = []
   public compra: Compra = CompraFactory.createDefault();
-  public categorias : Categorias[] = [];
+  public categorias: Categorias[] = [];
 
 
   public time = new Date()
+
   constructor(
     private readonly compraService: CompraService,
     private readonly productoService: ProductoService,
@@ -43,6 +44,7 @@ export class RegistroCompraComponent  implements OnInit {
     private readonly validatorService: ValidatorService,
   ) {
   }
+
   ngOnInit() {
 
     this.getProveedores()
@@ -53,13 +55,13 @@ export class RegistroCompraComponent  implements OnInit {
     this.getProductosConCategorias();
 
     this.registroForm = this.fb.group({
-      compraId:[0],
+      compraId: [0],
       fecha: [new Date(), Validators.required],
       concepto: [''],
-      subTotal: [{ value: 0, disabled: true }],
-      itbis:  [{ value: 0, disabled: true }],
-      total: [{ value: 0, disabled: true }],
-      comprasDetalle: this.fb.array([]),
+      subTotal: [{value: 0, disabled: true}],
+      itbis: [{value: 0, disabled: true}],
+      total: [{value: 0, disabled: true}],
+      comprasDetalle: this.fb.array([], this.minLengthArray(1)),
       proovedorId: [null, Validators.required],
 
     })
@@ -72,21 +74,39 @@ export class RegistroCompraComponent  implements OnInit {
 
   }
 
-  public get compraDetalle(){
+  public get compraDetalle() {
     return this.registroForm.get('comprasDetalle') as FormArray;
   }
 
-
+  public minLengthArray(minLength: number) {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const array = control.value as Array<any>;
+      if (!array || array.length < minLength) {
+        return { minLengthArray: { requiredLength: minLength, actualLength: array?.length || 0 } };
+      }
+      return null;
+    };
+  }
 
   public getFecha() {
     const hoy = new Date();
     return hoy.toISOString().split('.')[0] + 'Z';
   }
+
   public addCompraLoad() {
     console.log('Validando objeto de compra antes de enviar:', this.registroForm.value);
+    this.registroForm.markAllAsTouched();
+
+    if (this.registroForm.invalid) {
+      console.warn('El formulario es inválido:', this.registroForm.errors);
+      return; // Detén el envío si el formulario no es válido
+    }
+
     this.addCompra(this.currentCompra());
+
   }
-  public currentCompra():Compra{
+
+  public currentCompra(): Compra {
     const compraDetalles = this.compraDetalle.controls.map(control => ({
       compraDetalleId: control.value.compraDetalleId,
       productoId: control.value.productoId,
@@ -104,12 +124,16 @@ export class RegistroCompraComponent  implements OnInit {
   public getProductosConCategorias(): void {
     this.productoService.getProductos().subscribe((productos) => {
       this.productos = productos.map((producto) => {
-        producto.categoria = this.categorias.find(cat => cat.categoriaId === producto.categoriaId) ;
+        producto.categoria = this.categorias.find(cat => cat.categoriaId === producto.categoriaId);
         return producto;
       });
       this.productosFiltrados = [...this.productos];
       console.log('Productos con categorías asignadas:', this.productos);
     });
+  }
+
+  public validaDetalle(){
+    return this.registroForm.get('comprasDetalle')?.invalid && this.registroForm.get('comprasDetalle')?.touched
   }
 
   public getCategorias(): void {
@@ -118,16 +142,20 @@ export class RegistroCompraComponent  implements OnInit {
       console.log('Categorías cargadas:', this.categorias);
     });
   }
+
   public getProveedores() {
     this.productoService.getProveedores()
       .subscribe(proveedores => this.proveedores = proveedores);
   }
+
   public getProductos() {
     this.productoService.getProductos()
-      .subscribe(productos => {this.productos = productos
+      .subscribe(productos => {
+        this.productos = productos
         this.productosFiltrados = [...this.productos];
       });
   }
+
   public getCompras() {
     this.compraService.getCompras()
       .subscribe(compras => {
@@ -135,16 +163,19 @@ export class RegistroCompraComponent  implements OnInit {
         this.proximaCompraId = siguienteId.toString().padStart(5, '0');
       });
   }
-  public addCompra(compra: Compra){
+
+  public addCompra(compra: Compra) {
     this.compraService.addCompra(compra).subscribe(compra => {
-      this.compra = compra
-      console.log(compra)
+     if(compra) {
+       this.registroForm.reset()
+     }
     });
   }
 
   public isNotValidField(field: string) {
     return this.validatorService.isNotValidField(this.registroForm, field);
   }
+
   loadCarsLazy(event: TableLazyLoadEvent) {
 
     setTimeout(() => {
@@ -166,6 +197,7 @@ export class RegistroCompraComponent  implements OnInit {
       producto.nombre.toLowerCase().includes(lowerValue)
     );
   }
+
   recalcularTotales(): void {
     const comprasDetalleArray = this.registroForm.get('comprasDetalle') as FormArray;
 
@@ -202,6 +234,7 @@ export class RegistroCompraComponent  implements OnInit {
       console.warn(`Producto con ID ${productoId} no encontrado en el detalle.`);
     }
   }
+
   onRowSelect(event: any): void {
     const productoSeleccionado = event.data;
 
