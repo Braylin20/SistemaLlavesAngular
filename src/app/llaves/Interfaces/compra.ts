@@ -1,4 +1,5 @@
 import {Producto} from './producto';
+import {Proveedores} from './proveedores';
 
 export interface Compra {
   compraId: number;
@@ -8,7 +9,7 @@ export interface Compra {
   total: number;
   comprasDetalles: ComprasDetalle[] | null;
   loading: boolean;
-
+  proovedorId: number;
 }
 
  export interface ComprasDetalle {

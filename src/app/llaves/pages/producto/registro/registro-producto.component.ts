@@ -82,6 +82,7 @@ export class RegistroProductoComponent implements OnInit {
 
   }
 
+
   public getCategorias() {
     this.productoService.getCategorias()
       .subscribe(categorias => this.categorias = categorias);

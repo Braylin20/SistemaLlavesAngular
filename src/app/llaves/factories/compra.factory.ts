@@ -10,7 +10,8 @@ export class CompraFactory{
       subtotal: 0,
       total: 0,
       comprasDetalles: null,
-      loading: false
+      loading: false,
+      proovedorId: 0
     }
   }
 }

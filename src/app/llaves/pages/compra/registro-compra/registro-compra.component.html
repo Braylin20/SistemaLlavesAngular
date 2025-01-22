@@ -1,31 +1,42 @@
-<div class="container flex flex-col gap-3 justify-center items-center h-screen text-lg">
+<form class="container flex flex-col gap-3 justify-center items-center h-screen text-lg" [formGroup]="registroForm"
+      (ngSubmit)="addCompraLoad()">
+
   <div class="container border border-gray-800 w-[90%] p-2">
     <!-- Fila 1 -->
     <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
       <p class="w-full sm:w-auto mb-2 sm:mb-0">No. Entrada: {{ proximaCompraId }}</p>
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
         <p class="whitespace-nowrap">Proveedor:</p>
+        <div class="w-full box-border max-h-full">
+          <div class="relative">
+            <select
+              id="proveedores"
+              formControlName="proovedorId"
+              [ngClass]="[
+        'border border-gray-300 w-full rounded-md p-1',
+        isNotValidField('proovedorId') ? 'border-red-500' : ''
+      ]"
+            >
+              <option [value]="null" selected>Elige un proveedor</option>
+              <option *ngFor="let proveedor of proveedores" [value]="proveedor.proovedorId">
+                {{ proveedor.nombre }}
+              </option>
+            </select>
+            <div class=" text-sm text-red-400" *ngIf="isNotValidField('proovedorId')">
+              Este campo es requerido
+            </div>
+          </div>
+        </div>
 
-
-        <select id="proveedores"
-                class="bg-gray-50 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-1 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
-          <option selected>Elige un proveedor</option>
-          @for (proveedor of proveedores; track proveedor.proovedorId) {
-
-            <option [value]="proveedor.proovedorId">{{ proveedor.nombre }}</option>
-          }
-
-        </select>
       </div>
-
     </div>
-
     <!-- Fila 2 -->
     <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
       <div class="flex items-center gap-2">
         <p class="w-full sm:w-auto mb-2 sm:mb-0">Fecha: </p>
-        <p-datepicker [(ngModel)]="compra.fecha" [showButtonBar]="true" [showIcon]="true" inputId="buttondisplay"
+        <p-datepicker formControlName="fecha" [showButtonBar]="true" [showIcon]="true" inputId="buttondisplay"
                       readonlyInput class=" h-8 text-sm w-44"></p-datepicker>
+        <span *ngIf="isNotValidField('fecha')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
       </div>
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
         <p class="whitespace-nowrap">Concepto:</p>
@@ -41,50 +52,59 @@
   <div class="container border border-gray-800 w-[90%] h-[30%]">
     <div class="container border-b border-gray-800 p-0 flex  ">
       <p-table
-      [value]="compra.comprasDetalles?? []"
-      [scrollable]="true"
-      scrollHeight="313px"
-      class="w-full"
-    >
-      <ng-template #header>
-        <tr>
-          <th>Codigo</th>
-          <th>Nombre</th>
-          <th>Cantidad</th>
-          <th>Categoria</th>
-          <th>Costo</th>
-          <th>Precio</th>
-          <th>ITBIS</th>
-          <th>Total ITBIS</th>
-          <th>Total</th>
-        </tr>
-      </ng-template>
-      <ng-template #body let-detalleCompra>
-        <tr>
-          <td>{{ detalleCompra.productoId }}</td>
-          <td>{{ detalleCompra.producto.nombre }}</td>
-          <td>{{ detalleCompra.producto.cantidad }}</td>
-          <td>{{ detalleCompra.producto.categoria?.nombre || 'Sin categoría' }}</td>
-          <td>{{ detalleCompra.producto.costo| number:'1.2-2' }}</td>
-          <td>{{ detalleCompra.producto.precio |number:'1.2-2' }}</td>
-          <td>{{0.18 * detalleCompra.producto.precio |number:'1.2-2'  }}</td>
-          <td>{{ (0.18 * detalleCompra.producto.precio  * detalleCompra.producto.cantidad ) | number:'1.2-2' }}</td>
-          <td>{{  (0.18 * detalleCompra.producto.precio  * detalleCompra.producto.cantidad ) + (detalleCompra.producto.cantidad * detalleCompra.producto.precio ) |number:'1.2-2'}}</td>
-          <td (click)="eliminarProducto(detalleCompra.productoId)">   <i class="pi pi-trash text-white bg-red-500 p-2 rounded-lg text-2xl cursor-pointer hover:bg-red-600 hover:scale-110 transition-transform"></i></td>
-        </tr>
-      </ng-template>
-    </p-table>
+        [value]="compraDetalle.controls"
+        [scrollable]="true"
+        scrollHeight="313px"
+        class="w-full"
+      >
+        <ng-template #header>
+          <tr>
+            <th>Codigo</th>
+            <th>Nombre</th>
+            <th>Cantidad</th>
+            <th>Categoria</th>
+            <th>Costo</th>
+            <th>Precio</th>
+            <th>ITBIS</th>
+            <th>Total</th>
+          </tr>
+        </ng-template>
+
+        <ng-template #body let-detalle>
+          <tr>
+            <td>{{ detalle.value.productoId }}</td>
+            <td>{{ detalle.value.producto.nombre }}</td>
+            <td>
+              <input
+                type="number"
+                class="w-full"
+                [formControl]="detalle.get('cantidad')"
+                (input)="recalcularTotales()"
+              />
+            </td>
+            <td>{{ detalle.value.producto.categoria.nombre }}</td>
+            <td>{{ detalle.value.producto.costo | number: '1.2-2' }}</td>
+            <td>{{ detalle.value.producto.precio | number: '1.2-2' }}</td>
+            <td>{{ (detalle.value.producto.precio * 0.18) | number: '1.2-2' }}</td>
+            <td>{{ detalle.value.total | number: '1.2-2' }}</td>
+            <td>
+              <button
+                class="pi pi-trash text-white bg-red-500 p-2 rounded-lg text-2xl cursor-pointer hover:bg-red-600 hover:scale-110 transition-transform"
+                (click)="eliminarProducto(detalle.value.productoId)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
     </div>
   </div>
 
 
-
-
+  <!--[(ngModel)]="searchValue  " -->
   <div class="container  w-[92%] px-2">
     <p-floatlabel variant="on">
       <input
         pInputText id="on_label"
-        [(ngModel)]="searchValue  "
         autocomplete="off"
         name="nombre"
         pSize="small"
@@ -136,13 +156,13 @@
     </div>
 
 
-    <!-- Solución corregida con flex y control de ancho -->
+    <!--  [(ngModel)]="compra.subtotal" -->
     <div class="flex flex-col gap-2 border-l border-gray-800 p-2 w-full ">
       <!-- SubTotal -->
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">SubTotal</p>
         <p-inputnumber
-          [(ngModel)]="compra.subtotal"
+          formControlName ="subTotal"
           inputId="currency-us"
           mode="currency"
           currency="DOP"
@@ -153,11 +173,11 @@
         </p-inputnumber>
       </div>
 
-      <!-- Itbis -->
+      <!--  [(ngModel)]="compra.itbis" -->
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">Itbis</p>
         <p-inputnumber
-          [(ngModel)]="compra.itbis"
+          formControlName ="itbis"
           inputId="currency-us"
           mode="currency"
           currency="DOP"
@@ -169,24 +189,25 @@
       </div>
 
       <!-- Total -->
+      <!-- [(ngModel)]="compra.total" -->
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">Total</p>
         <p-inputnumber
-          [(ngModel)]="compra.total"
+          formControlName ="total"
           inputId="currency-us"
           mode="currency"
           currency="DOP"
           locale="en-US"
-          [disabled]="true"
           size="small"
           class="min-w-0 truncate text-right">
         </p-inputnumber>
       </div>
       <div class="flex justify-center w-full">
-        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" (onClick)="AddCompraLoad()" class="text-sm px-2 py-1"/>
+        <p-button label="Guardar" icon="pi pi-check" [loading]="loading" type="submit" class="text-sm px-2 py-1"/>
       </div>
 
     </div>
   </div>
 
-</div>
+
+</form>
