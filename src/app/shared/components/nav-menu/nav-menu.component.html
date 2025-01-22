@@ -18,7 +18,7 @@
       </span>
       <ul *ngIf="submenus['productos']" class="hover:bg-blue-800 list-disc list-inside flex flex-col items-center pr-8">
         <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
-          <span class="list-disc mr-2 pr-8">• Registrar</span>
+          <span class="list-disc mr-2 pr-8">• Registrar productos</span>
         </li>
 
 
@@ -36,10 +36,10 @@
       <!-- Submenú con hover aplicado correctamente en todo el contenedor -->
       <ul *ngIf="submenus['compras']" class="list-none flex flex-col items-start space-y-2">
         <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
-          <span class="list-disc mr-2 pr-16">• Registrar</span>
+          <span class="list-disc mr-2 pr-16">• Registrar compra</span>
         </li>
         <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
-          <span class="list-disc mr-3 pr-16">• Historial</span>
+          <span class="list-disc mr-3 pr-16">• Historial compra</span>
         </li>
         <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
           <span class="list-disc mr-2 pr-10">• Proveedores</span>
@@ -49,7 +49,6 @@
 
 
     <li class="hover:cursor-pointer flex flex-col w-full border-b border-gray-500">
-
       <!-- Encabezado del menú con iconos -->
       <span class="text-lg p-4 hover:bg-blue-800 flex justify-center items-center" (click)="toggleSubmenu('ventas')">
         <img *ngIf="!submenus['ventas']" src="./IconsNav/navArrow.svg" class="w-6" alt="Mostrar submenú"/>
@@ -59,11 +58,13 @@
 
       <!-- Submenú con hover aplicado correctamente en todo el contenedor -->
       <ul *ngIf="submenus['ventas']" class="list-none flex flex-col items-start space-y-2">
-        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
-          <span class="list-disc mr-2 pr-16">• Registrar</span>
+        <li routerLink="/ventas" routerLinkActive="bg-blue-800"
+            class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-2 pr-16">•Registrar venta</span>
         </li>
-        <li class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
-          <span class="list-disc mr-3 pr-16">• Historial</span>
+        <li routerLink="/historial" routerLinkActive="bg-blue-800"
+            class="hover:bg-blue-800 hover:cursor-pointer py-3 w-full flex items-center justify-end px-4 rounded-lg transition-all duration-200 ease-in-out">
+          <span class="list-disc mr-3 pr-16">•Historial ventas</span>
         </li>
       </ul>
     </li>
