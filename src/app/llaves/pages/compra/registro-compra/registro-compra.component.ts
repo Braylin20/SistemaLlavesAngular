@@ -78,6 +78,23 @@ export class RegistroCompraComponent implements OnInit {
     return this.registroForm.get('comprasDetalle') as FormArray;
   }
 
+  public actualizarProducto(): void {
+    const detalles = this.compraDetalle.controls;
+
+    detalles.forEach((detalle) => {
+      const productoActualizado: Producto = {
+        ...detalle.value.producto,
+        cantidad: detalle.value.cantidad, // Nueva cantidad
+        costo: detalle.value.producto.costo, // Actualiza el costo si es necesario
+        precio: detalle.value.producto.precio, // Actualiza el precio si es necesario
+      };
+
+      this.productoService.updateProducto(productoActualizado.productoId, productoActualizado).subscribe({
+        next: () => console.log(`Producto ${productoActualizado.productoId} actualizado correctamente`),
+        error: (err) => console.error(`Error al actualizar el producto ${productoActualizado.productoId}:`, err),
+      });
+    });
+  }
   public minLengthArray(minLength: number) {
     return (control: AbstractControl): ValidationErrors | null => {
       const array = control.value as Array<any>;
@@ -95,15 +112,22 @@ export class RegistroCompraComponent implements OnInit {
 
   public addCompraLoad() {
     console.log('Validando objeto de compra antes de enviar:', this.registroForm.value);
+
     this.registroForm.markAllAsTouched();
 
     if (this.registroForm.invalid) {
-      console.warn('El formulario es inválido:', this.registroForm.errors);
-      return; // Detén el envío si el formulario no es válido
+      console.warn('Formulario inválido.');
+      return;
     }
 
-    this.addCompra(this.currentCompra());
+    // Crear objeto de compra
+    const compra = this.currentCompra();
 
+    // Guardar la compra en el backend
+    this.addCompra(compra);
+
+    // Actualizar productos en el backend
+    this.actualizarProducto();
   }
 
   public currentCompra(): Compra {
@@ -114,6 +138,7 @@ export class RegistroCompraComponent implements OnInit {
       cantidad: control.value.cantidad,
       total: control.value.total,
     }));
+
 
     return {
       ...this.registroForm.value, // Incluye los valores principales del formulario
@@ -198,24 +223,38 @@ export class RegistroCompraComponent implements OnInit {
     );
   }
 
-  recalcularTotales(): void {
-    const comprasDetalleArray = this.registroForm.get('comprasDetalle') as FormArray;
+  public recalcularTotales(): void {
+    const comprasDetalleArray = this.compraDetalle;
 
-    const subTotal = comprasDetalleArray.controls.reduce(
-      (suma, control) => suma + (control.value.producto.precio * control.value.cantidad),
-      0
-    );
-    const itbis = comprasDetalleArray.controls.reduce(
-      (suma, control) => suma + (control.value.producto.precio * control.value.cantidad * 0.18), // ITBIS del 18%
-      0
-    );
-    const total = subTotal + itbis;
+    let subTotal = 0;
+    let itbisTotal = 0;
 
-    // Actualiza los totales en el formulario
+    comprasDetalleArray.controls.forEach((control) => {
+      const cantidad = control.value.cantidad || 0;
+      const costo = control.value.costo || 0;
+      const precio = control.value.precio || 0;
+
+      // Calcular ITBIS y Total
+      const itbis = precio * cantidad * 0.18;
+      const total = precio * cantidad + itbis;
+
+      // Actualizar valores calculados en el FormGroup
+      control.patchValue({
+        itbis: parseFloat(itbis.toFixed(2)),
+        total: parseFloat(total.toFixed(2)),
+      }, { emitEvent: false }); // Evitar bucles infinitos
+
+      subTotal += precio * cantidad;
+      itbisTotal += itbis;
+    });
+
+    const totalGeneral = subTotal + itbisTotal;
+
+    // Actualiza los totales en el formulario principal
     this.registroForm.patchValue({
       subTotal: parseFloat(subTotal.toFixed(2)),
-      itbis: parseFloat(itbis.toFixed(2)),
-      total: parseFloat(total.toFixed(2)),
+      itbis: parseFloat(itbisTotal.toFixed(2)),
+      total: parseFloat(totalGeneral.toFixed(2)),
     });
   }
 
@@ -238,37 +277,40 @@ export class RegistroCompraComponent implements OnInit {
   onRowSelect(event: any): void {
     const productoSeleccionado = event.data;
 
-    // Obtén el FormArray desde el FormGroup
-    const comprasDetalleArray = this.registroForm.get('comprasDetalle') as FormArray;
-
-    // Verifica si el producto ya está en el FormArray
-    const existe = comprasDetalleArray.controls.some(control => control.value.productoId === productoSeleccionado.productoId);
-
-    if (!existe) {
-      // Calcula el total inicial para el producto seleccionado
-      const cantidad = 1;
-      const precio = productoSeleccionado.precio;
-      const total = parseFloat(((precio * cantidad) + (precio * cantidad * 0.18)).toFixed(2));
-
-      // Crea un nuevo FormGroup para el producto seleccionado
-      const detalleFormGroup = this.fb.group({
-        compraDetalleId: [0],
-        productoId: [productoSeleccionado.productoId],
-        producto: [productoSeleccionado], // Solo para la vista
-        cantidad: [cantidad, Validators.required],
-        total: [total], // Total inicial calculado
-      });
-
-      // Agrega el FormGroup al FormArray
-      comprasDetalleArray.push(detalleFormGroup);
-
-      console.log(`Producto con ID ${productoSeleccionado.productoId} agregado.`);
-
-      // Recalcula los totales generales
-      this.recalcularTotales();
-    } else {
-      console.warn(`El producto con ID ${productoSeleccionado.productoId} ya existe en el detalle.`);
+    // Verifica si ya existe el producto en el detalle
+    if (this.compraDetalle.controls.some(control => control.value.productoId === productoSeleccionado.productoId)) {
+      console.warn('El producto ya está en el detalle.');
+      return;
     }
+
+    // Inicializa los valores de los campos
+    const cantidad = 1;
+    const costo = productoSeleccionado.costo || 0;
+    const precio = productoSeleccionado.precio || 0;
+
+    // Calcula el total inicial
+    const itbis = precio * cantidad * 0.18;
+    const total = precio * cantidad + itbis;
+
+    // Agrega el producto como FormGroup al FormArray
+    const detalleFormGroup = this.fb.group({
+      compraDetalleId: [0],
+      productoId: [productoSeleccionado.productoId],
+      producto: [productoSeleccionado], // Solo para referencia en la vista
+      cantidad: [cantidad, Validators.required],
+      costo: [costo, Validators.required],
+      precio: [precio, Validators.required],
+      itbis: [parseFloat(itbis.toFixed(2))], // Calculado
+      total: [parseFloat(total.toFixed(2))], // Calculado
+    });
+
+    // Escucha los cambios en los campos para recalcular valores
+    detalleFormGroup.get('cantidad')?.valueChanges.subscribe(() => this.recalcularTotales());
+    detalleFormGroup.get('costo')?.valueChanges.subscribe(() => this.recalcularTotales());
+    detalleFormGroup.get('precio')?.valueChanges.subscribe(() => this.recalcularTotales());
+
+    this.compraDetalle.push(detalleFormGroup);
+    this.recalcularTotales();
   }
 
 }

@@ -39,4 +39,8 @@ export class ProductoService implements OnInit {
   getProductos(): Observable<Producto[]> {
     return this.httpClient.get<Producto[]>(`${apiUrl}/productos`)
   }
+
+  updateProducto(productoId: number, producto: Producto): Observable<Producto> {
+    return this.httpClient.put<Producto>(`${apiUrl}/productos/${productoId}`, producto);
+  }
 }
