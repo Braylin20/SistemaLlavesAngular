@@ -11,6 +11,7 @@
   "private": true,
   "dependencies": {
     "@angular/animations": "^19.0.0",
+    "@angular/cdk": "^19.1.4",
     "@angular/common": "^19.0.0",
     "@angular/compiler": "^19.0.0",
     "@angular/core": "^19.0.0",
@@ -21,7 +22,7 @@
     "@primeng/themes": "^19.0.2",
     "flowbite": "^2.5.2",
     "primeicons": "^7.0.0",
-    "primeng": "^19.0.2",
+    "primeng": "^19.0.6",
     "rxjs": "~7.8.0",
     "tailwindcss-primeui": "^0.3.4",
     "tslib": "^2.3.0",

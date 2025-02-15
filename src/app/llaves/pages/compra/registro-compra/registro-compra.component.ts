@@ -99,12 +99,8 @@ export class RegistroCompraComponent implements OnInit {
       console.warn('El formulario es inválido:', this.registroForm.errors);
       return;
     }
-
     const {total} = this.currentCompra();
-
     console.log('Objeto de compra listo para enviar:', total);
-
-    // Actualiza los productos relacionados
     const productosActualizados = this.compraDetalle.controls.map(control => {
       const producto = control.value.producto;
       return this.productoService.updateProducto(control.value.productoId, {
@@ -118,12 +114,11 @@ export class RegistroCompraComponent implements OnInit {
     Promise.all(productosActualizados)
       .then(() => {
         console.log('Todos los productos actualizados correctamente.');
-
-        // Guarda la compra
         this.addCompra(this.currentCompra());
-
-        // Limpia el formulario y detalles de forma controlada
         this.resetForm();
+        this.getCompras();
+        this.getProductos();
+
       })
       .catch(error => {
         console.error('Error al actualizar los productos:', error);
@@ -131,15 +126,27 @@ export class RegistroCompraComponent implements OnInit {
   }
 
   private resetForm(): void {
-    // Incrementa la ID de la próxima compra
     this.siguienteCompraId += 1;
     this.proximaCompraId = this.siguienteCompraId.toString().padStart(5, '0');
-    this.compraDetalle.clear()
+
+    this.registroForm.reset({
+      compraId: this.siguienteCompraId,
+      fecha: new Date(),
+      concepto: '',
+      subTotal: 0,
+      itbis: 0,
+      total: 0,
+      comprasDetalle: [],
+      proovedorId: null,
+    });
+
+    this.compraDetalle.clear();
     this.registroForm.markAsPristine();
     this.registroForm.markAsUntouched();
 
     console.log('Formulario reseteado correctamente. Nueva compra ID:', this.proximaCompraId);
   }
+
 
   public currentCompra(): Compra {
     const compraDetalles = this.compraDetalle.controls.map(control => ({
@@ -152,8 +159,8 @@ export class RegistroCompraComponent implements OnInit {
 
 
     return {
-      ...this.registroForm.value, // Incluye los valores principales del formulario
-      comprasDetalles: compraDetalles, // Agrega el detalle mapeado
+      ...this.registroForm.value,
+      comprasDetalles: compraDetalles,
     } as Compra;
   }
 
@@ -194,12 +201,13 @@ export class RegistroCompraComponent implements OnInit {
 
   public siguienteCompraId: number = 0;
   public getCompras() {
-    this.compraService.getCompras()
-      .subscribe(compras => {
-        this.siguienteCompraId = compras.length + 1;
-        this.proximaCompraId = this.siguienteCompraId.toString().padStart(5, '0');
-      });
+    this.compraService.getCompras().subscribe(compras => {
+      this.siguienteCompraId = compras.length + 1;
+      this.proximaCompraId = this.siguienteCompraId.toString().padStart(5, '0');
+      console.log('Próxima compra ID actualizada:', this.proximaCompraId);
+    });
   }
+
 
   public addCompra(compra: Compra) {
     this.compraService.addCompra(compra).subscribe(compra => {
@@ -237,23 +245,15 @@ export class RegistroCompraComponent implements OnInit {
 
   recalcularTotales(): void {
     const comprasDetalleArray = this.compraDetalle;
-
-    // Calcula el subtotal sumando el costo de cada producto por su cantidad
     const subTotal = comprasDetalleArray.controls.reduce(
       (suma, control) => suma + (control.value.costo * control.value.cantidad),
       0
     );
-
-    // Calcula el ITBIS sumando el impuesto correspondiente a cada producto
     const itbis = comprasDetalleArray.controls.reduce(
       (suma, control) => suma + (control.value.cantidad * control.value.precio * 0.18 ), // ITBIS del 18%
       0
     );
-
-    // Calcula el total general sumando el subtotal y el ITBIS
     const total = subTotal + itbis;
-
-    // Actualiza los valores en el formulario principal
     this.registroForm.patchValue({
       subTotal: parseFloat(subTotal.toFixed(2)),
       itbis: parseFloat(itbis.toFixed(2)),
@@ -310,11 +310,9 @@ export class RegistroCompraComponent implements OnInit {
         itbis: [0], // Calculado automáticamente
         total: [total], // Calculado automáticamente
       });
-
-      // Suscripciones para recalcular el detalle y totales generales
       detalleFormGroup.get('cantidad')?.valueChanges.subscribe(() => {
         this.calcularDetalle(detalleFormGroup);
-        this.recalcularTotales(); // Recalcula los totales generales
+        this.recalcularTotales();
       });
       detalleFormGroup.get('costo')?.valueChanges.subscribe(() => {
         this.calcularDetalle(detalleFormGroup);
@@ -326,8 +324,6 @@ export class RegistroCompraComponent implements OnInit {
       });
 
       comprasDetalleArray.push(detalleFormGroup);
-
-      // Calcula el detalle inicial y totales generales
       this.calcularDetalle(detalleFormGroup);
       this.recalcularTotales();
 
