@@ -50,7 +50,6 @@ export class RegistroCompraComponent implements OnInit {
     this.getProveedores()
     this.getCompras();
     this.getProductos();
-    this.compra.fecha.getTime();
     this.productosFiltrados = [...this.productos];
     this.getProductosConCategorias();
 
@@ -232,7 +231,7 @@ export class RegistroCompraComponent implements OnInit {
       if (event.forceUpdate) {
         event.forceUpdate();
       }
-    }, Math.random() * 1000 + 250);
+    },2000);
   }
 
   filtrarGlobal(value: string): void {
