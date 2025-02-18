@@ -1,5 +1,5 @@
 import {Producto} from './producto';
-import {Proveedores} from './proveedores';
+
 
 export interface Compra {
   compraId: number;

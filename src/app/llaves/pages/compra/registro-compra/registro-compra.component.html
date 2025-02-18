@@ -2,7 +2,6 @@
       (ngSubmit)="addCompraLoad()">
 
   <div class="container border border-gray-800 w-[90%] p-2">
-    <!-- Fila 1 -->
     <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
       <p class="w-full sm:w-auto mb-2 sm:mb-0">No. Entrada: {{ proximaCompraId }}</p>
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
@@ -30,7 +29,6 @@
 
       </div>
     </div>
-    <!-- Fila 2 -->
     <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
       <div class="flex items-center gap-2">
         <p class="w-full sm:w-auto mb-2 sm:mb-0">Fecha: </p>
@@ -41,28 +39,26 @@
       <div class="flex items-center gap-2 w-full sm:w-[40%]">
         <p class="whitespace-nowrap">Concepto:</p>
         <textarea id="message"
-
                   class="block w-full text-sm border border-gray-600 p-2 h-[80px]"
                   placeholder="Escribe una descripcion..."></textarea>
       </div>
     </div>
   </div>
 
-
   <div class="container border border-gray-800 w-[90%] h-[30%]">
     <div class="container border-b border-gray-800 p-0 flex  ">
       <p-table [value]="compraDetalle.controls" [scrollable]="true" scrollHeight="313px" class="w-full">
         <ng-template pTemplate="header">
           <tr>
-            <th>Codigo</th>
-            <th>Producto</th>
-            <th>Cantidad</th>
-            <th>Costo</th>
-            <th>Precio</th>
-            <th>ITBIS</th>
-            <th>TotalItbis</th>
-            <th>Total</th>
-            <th>Acciones</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Precio</th>
+            <th scope="col">ITBIS</th>
+            <th scope="col">TotalItbis</th>
+            <th scope="col">Total</th>
+            <th scope="col">Acciones</th>
           </tr>
         </ng-template>
 
@@ -133,8 +129,6 @@
     </div>
   </div>
 
-
-  <!--[(ngModel)]="searchValue  " -->
   <div class="container  w-[92%] px-2">
     <p-floatlabel variant="on">
       <input
@@ -169,11 +163,11 @@
       >
         <ng-template #header>
           <tr>
-            <th>Codigo</th>
-            <th>Nombre</th>
-            <th>Costo</th>
-            <th>Desc Max</th>
-            <th>Precio</th>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Desc Max</th>
+            <th scope="col">Precio</th>
           </tr>
         </ng-template>
         <ng-template #body let-producto>
@@ -190,7 +184,6 @@
     </div>
 
 
-    <!--  [(ngModel)]="compra.subtotal" -->
     <div class="flex flex-col gap-2 border-l border-gray-800 p-2 w-full ">
       <!-- SubTotal -->
       <div class="flex justify-between w-full items-center">
@@ -206,8 +199,6 @@
           class=" min-w-0 truncate text-right">
         </p-inputnumber>
       </div>
-
-      <!--  [(ngModel)]="compra.itbis" -->
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">Itbis</p>
         <p-inputnumber
@@ -221,9 +212,7 @@
           class=" min-w-0 truncate text-right">
         </p-inputnumber>
       </div>
-
       <!-- Total -->
-      <!-- [(ngModel)]="compra.total" -->
       <div class="flex justify-between w-full items-center">
         <p class="w-20 text-left">Total</p>
         <p-inputnumber
@@ -242,14 +231,9 @@
           icon="pi pi-check"
           [loading]="loading"
           type="submit"
-
           class="text-sm px-2 py-1"
         ></p-button>
-
       </div>
-
     </div>
   </div>
-
-
 </form>

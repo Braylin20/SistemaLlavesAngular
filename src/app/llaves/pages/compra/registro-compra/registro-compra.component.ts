@@ -1,6 +1,6 @@
-import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import {CompraFactory} from '../../../factories/compra.factory';
-import {Compra, ComprasDetalle} from '../../../Interfaces/compra';
+import {Compra} from '../../../Interfaces/compra';
 import {CompraService} from '../../../services/compra.service';
 import {ProductoService} from '../../../services/producto.service';
 import {Proveedores} from '../../../Interfaces/proveedores';
@@ -17,12 +17,11 @@ import {ValidatorService} from '../../../validators/validator.service';
 @Component({
   selector: 'app-registro-compra',
   standalone: false,
-
   templateUrl: './registro-compra.component.html',
   styleUrl: './registro-compra.component.css'
 })
 export class RegistroCompraComponent implements OnInit {
-  registroForm!: FormGroup;
+  public registroForm!: FormGroup;
   loading: boolean = false;
   public proveedores: Proveedores[] = [];
   public productos: Producto[] = [];
@@ -34,13 +33,11 @@ export class RegistroCompraComponent implements OnInit {
   public categorias: Categorias[] = [];
 
 
-  public time = new Date()
-
   constructor(
     private readonly compraService: CompraService,
     private readonly productoService: ProductoService,
     private readonly categoriaService: CategoriaService,
-    private fb: FormBuilder,
+    private readonly fb: FormBuilder,
     private readonly validatorService: ValidatorService,
   ) {
   }
@@ -278,7 +275,6 @@ export class RegistroCompraComponent implements OnInit {
   calcularDetalle(detalle: AbstractControl): void {
     const cantidad = detalle.get('cantidad')?.value || 0;
     const precio = detalle.get('precio')?.value || 0;
-    const costo = detalle.get('costo')?.value || 0;
 
     const itbisProducto = precio  * 0.18; // ITBIS del 18%
     const total = precio * cantidad + itbisProducto;
