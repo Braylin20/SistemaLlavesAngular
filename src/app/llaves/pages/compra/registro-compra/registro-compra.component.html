@@ -1,0 +1,239 @@
+<form class="container flex flex-col gap-3 justify-center items-center h-screen text-lg" [formGroup]="registroForm"
+      (ngSubmit)="addCompraLoad()">
+
+  <div class="container border border-gray-800 w-[90%] p-2">
+    <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
+      <p class="w-full sm:w-auto mb-2 sm:mb-0">No. Entrada: {{ proximaCompraId }}</p>
+      <div class="flex items-center gap-2 w-full sm:w-[40%]">
+        <p class="whitespace-nowrap">Proveedor:</p>
+        <div class="w-full box-border max-h-full">
+          <div class="relative">
+            <select
+              id="proveedores"
+              formControlName="proovedorId"
+              [ngClass]="[
+        'border border-gray-300 w-full rounded-md p-1',
+        isNotValidField('proovedorId') ? 'border-red-500' : ''
+      ]"
+            >
+              <option [value]="null" selected>Elige un proveedor</option>
+              <option *ngFor="let proveedor of proveedores" [value]="proveedor.proovedorId">
+                {{ proveedor.nombre }}
+              </option>
+            </select>
+            <div class=" text-sm text-red-400" *ngIf="isNotValidField('proovedorId')">
+              Este campo es requerido
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="container p-2 flex flex-wrap sm:flex-nowrap justify-between items-center">
+      <div class="flex items-center gap-2">
+        <p class="w-full sm:w-auto mb-2 sm:mb-0">Fecha: </p>
+        <p-datepicker formControlName="fecha" [showButtonBar]="true" [showIcon]="true" inputId="buttondisplay"
+                      readonlyInput class=" h-8 text-sm w-44"></p-datepicker>
+        <span *ngIf="isNotValidField('fecha')" class="text-sm text-red-400 ml-1">Este campo es requerido</span>
+      </div>
+      <div class="flex items-center gap-2 w-full sm:w-[40%]">
+        <p class="whitespace-nowrap">Concepto:</p>
+        <textarea id="message"
+                  class="block w-full text-sm border border-gray-600 p-2 h-[80px]"
+                  placeholder="Escribe una descripcion..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="container border border-gray-800 w-[90%] h-[30%]">
+    <div class="container border-b border-gray-800 p-0 flex  ">
+      <p-table [value]="compraDetalle.controls" [scrollable]="true" scrollHeight="313px" class="w-full">
+        <ng-template pTemplate="header">
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Producto</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Precio</th>
+            <th scope="col">ITBIS</th>
+            <th scope="col">TotalItbis</th>
+            <th scope="col">Total</th>
+            <th scope="col">Acciones</th>
+          </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-detalle>
+          <tr>
+            <td>{{ detalle.value.producto.productoId }}</td>
+            <td>{{ detalle.value.producto.nombre }}</td>
+            <td>
+              <input
+                type="number"
+                [formControl]="detalle.get('cantidad')"
+                class="w-full"
+                placeholder="Cantidad"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                [formControl]="detalle.get('costo')"
+                class="w-full"
+                placeholder="Costo"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                [formControl]="detalle.get('precio')"
+                class="w-full"
+                placeholder="Precio"
+              />
+            </td>
+            <td>{{ detalle.value.itbis | number: '1.2-2' }}</td>
+            <td>{{ detalle.value.itbis * detalle.value.cantidad | number: '1.2-2' }}</td>
+            <td>{{ detalle.value.total | number: '1.2-2' }}</td>
+            <td>
+              <button
+                class="pi pi-trash text-red-500"
+                (click)="eliminarProducto(detalle.value.productoId)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+
+
+    </div>
+    <div
+      *ngIf="validaDetalle()"
+      class="flex justify-center items-center bg-red-100 border border-red-500 text-red-700 px-4 py-3  shadow-md"
+    >
+      <svg
+        class="w-6 h-6 mr-2"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M9 12h6m2 10H7a2 2 0 01-2-2V7a2 2 0 012-2h3l2-2h4l2 2h3a2 2 0 012 2v13a2 2 0 01-2 2z"
+        ></path>
+      </svg>
+      <p class="text-lg font-semibold">
+        Debe agregar al menos un producto al detalle.
+      </p>
+    </div>
+  </div>
+
+  <div class="container  w-[92%] px-2">
+    <p-floatlabel variant="on">
+      <input
+        pInputText id="on_label"
+        autocomplete="off"
+        name="nombre"
+        pSize="small"
+        class="w-full"
+        (input)="filtrarGlobal(searchValue)"
+      />
+      <label for="on_label">Nombre</label>
+    </p-floatlabel>
+  </div>
+
+  <div class="grid grid-cols-4 border border-gray-800 w-[90%] h-[30%]">
+    <div class="col-span-3">
+      <p-table
+        #dt
+        [value]="productosFiltrados"
+        [(selection)]="virtualProducts"
+        selectionMode="single"
+        [rowHover]="true"
+        [rows]="10"
+        [filterDelay]="0"
+        [scrollable]="true"
+        scrollHeight="313px"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="66"
+        [lazy]="true"
+        (onLazyLoad)="loadCarsLazy($event)"
+        (onRowSelect)="onRowSelect($event)"
+      >
+        <ng-template #header>
+          <tr>
+            <th scope="col">Codigo</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Costo</th>
+            <th scope="col">Desc Max</th>
+            <th scope="col">Precio</th>
+          </tr>
+        </ng-template>
+        <ng-template #body let-producto>
+          <tr [pSelectableRow]="producto">
+            <td>{{ producto.productoId }}</td>
+            <td>{{ producto.nombre }}</td>
+            <td>{{ producto.costo | currency }}</td>
+            <td>{{ producto.descuento | percent }}</td>
+            <td>{{ producto.precio | currency }}</td>
+
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+
+
+    <div class="flex flex-col gap-2 border-l border-gray-800 p-2 w-full ">
+      <!-- SubTotal -->
+      <div class="flex justify-between w-full items-center">
+        <p class="w-20 text-left">SubTotal</p>
+        <p-inputnumber
+          formControlName="subTotal"
+          inputId="currency-us"
+          mode="currency"
+          currency="DOP"
+          locale="en-US"
+          [disabled]="true"
+          size="small"
+          class=" min-w-0 truncate text-right">
+        </p-inputnumber>
+      </div>
+      <div class="flex justify-between w-full items-center">
+        <p class="w-20 text-left">Itbis</p>
+        <p-inputnumber
+          formControlName="itbis"
+          inputId="currency-us"
+          mode="currency"
+          currency="DOP"
+          locale="en-US"
+          [disabled]="true"
+          size="small"
+          class=" min-w-0 truncate text-right">
+        </p-inputnumber>
+      </div>
+      <!-- Total -->
+      <div class="flex justify-between w-full items-center">
+        <p class="w-20 text-left">Total</p>
+        <p-inputnumber
+          formControlName="total"
+          inputId="currency-us"
+          mode="currency"
+          currency="DOP"
+          locale="en-US"
+          size="small"
+          class="min-w-0 truncate text-right">
+        </p-inputnumber>
+      </div>
+      <div class="flex justify-center w-full">
+        <p-button
+          label="Guardar"
+          icon="pi pi-check"
+          [loading]="loading"
+          type="submit"
+          class="text-sm px-2 py-1"
+        ></p-button>
+      </div>
+    </div>
+  </div>
+</form>
